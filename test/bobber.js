@@ -26,7 +26,7 @@ describe('bobber', function () {
         };
         var bobber = Bobber.getCheckoutCommand(bobberPath, scm);
         Fs.rmdirSync(bobberPath);
-        expect(bobber).to.contain('git clone -b origin/master git@github.com:fishin/bobber');
+        expect(bobber).to.contain('git clone -b origin/master git@github.com:fishin/bobber .');
         done();
     });
 
@@ -42,7 +42,7 @@ describe('bobber', function () {
         var bobber = Bobber.getCheckoutCommand(bobberPath, scm);
         Fs.rmdirSync(gitPath);
         Fs.rmdirSync(bobberPath);
-        expect(bobber).to.contain('git pull origin/master master');
+        expect(bobber).to.contain('git pull');
         done();
     });
 
