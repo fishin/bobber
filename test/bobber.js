@@ -21,12 +21,12 @@ describe('bobber', function () {
 
         Fs.mkdirSync(bobberPath);
         var scm = { type: 'github',
-                    branch: 'origin/master',
-                    url: 'git@github.com:fishin/bobber'
+                    branch: 'master',
+                    url: 'https://github.com/fishin/bobber'
         };
         var bobber = Bobber.getCheckoutCommand(bobberPath, scm);
         Fs.rmdirSync(bobberPath);
-        expect(bobber).to.contain('git clone -b origin/master git@github.com:fishin/bobber .');
+        expect(bobber).to.contain('git clone -q --branch=master https://github.com/fishin/bobber .');
         done();
     });
 
