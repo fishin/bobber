@@ -1,7 +1,7 @@
 var Fs = require('fs');
 var Hapi = require('hapi');
 var Lab = require('lab');
-var Bobber = require('../lib/bobber');
+var Bobber = require('../lib');
 var Path = require('path');
 
 var internals = {};
@@ -18,15 +18,15 @@ var bobberPath = '/tmp/bobber';
 describe('bobber', function () {
 
     it('getCheckoutCommand new', function (done) {
-
         Fs.mkdirSync(bobberPath);
         var scm = { type: 'github',
                     branch: 'master',
                     url: 'https://github.com/fishin/bobber'
         };
-        var bobber = Bobber.getCheckoutCommand(bobberPath, scm);
+        var bobber = new Bobber;
+        var command = bobber.getCheckoutCommand(bobberPath, scm);
         Fs.rmdirSync(bobberPath);
-        expect(bobber).to.contain('git clone -q --branch=master https://github.com/fishin/bobber .');
+        expect(command).to.contain('git clone -q --branch=master https://github.com/fishin/bobber .');
         done();
     });
 
@@ -39,10 +39,11 @@ describe('bobber', function () {
                     branch: 'origin/master',
                     url: 'git@github.com:fishin/bobber'
         };
-        var bobber = Bobber.getCheckoutCommand(bobberPath, scm);
+        var bobber = new Bobber;
+        var command = bobber.getCheckoutCommand(bobberPath, scm);
         Fs.rmdirSync(gitPath);
         Fs.rmdirSync(bobberPath);
-        expect(bobber).to.contain('git pull');
+        expect(command).to.contain('git pull');
         done();
     });
 
