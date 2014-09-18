@@ -26,7 +26,7 @@ describe('bobber', function () {
         var bobber = new Bobber;
         var command = bobber.getCheckoutCommand(bobberPath, scm);
         Fs.rmdirSync(bobberPath);
-        expect(command).to.contain('git clone -q --branch=master https://github.com/fishin/bobber .');
+        expect(command).to.contain('git clone --branch=master https://github.com/fishin/bobber .');
         done();
     });
 
@@ -44,6 +44,15 @@ describe('bobber', function () {
         Fs.rmdirSync(gitPath);
         Fs.rmdirSync(bobberPath);
         expect(command).to.contain('git pull');
+        done();
+    });
+
+    it('getElements', function (done) {
+
+        var bobber = new Bobber;
+        var elements = bobber.getElements();
+        //console.log(elements);
+        expect(elements).to.be.length(2);
         done();
     });
 
