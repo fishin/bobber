@@ -1,3 +1,4 @@
+var Code = require('code');
 var Fs = require('fs');
 var Hapi = require('hapi');
 var Lab = require('lab');
@@ -7,9 +8,7 @@ var Path = require('path');
 var internals = {};
 
 var lab = exports.lab = Lab.script();
-var expect = Lab.expect;
-var before = lab.before;
-var after = lab.after;
+var expect = Code.expect;
 var describe = lab.describe;
 var it = lab.it;
 
