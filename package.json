@@ -1,6 +1,6 @@
 {
   "name": "bobber",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "bobber ======",
   "main": "index.js",
   "scripts": {
@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/fishin/bobber",
   "dependencies": {
-    "hapi": "6.x.x",
+    "hapi": "8.x.x",
     "hoek": "2.x.x"
   },
   "devDependencies": {
