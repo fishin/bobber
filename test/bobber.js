@@ -12,7 +12,7 @@ var expect = Code.expect;
 var describe = lab.describe;
 var it = lab.it;
 
-var bobberPath = '/tmp/bobber';
+var bobberPath = '/tmp/testbobber';
 
 describe('bobber', function () {
 
