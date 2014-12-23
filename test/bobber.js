@@ -1,6 +1,5 @@
 var Code = require('code');
 var Fs = require('fs');
-var Hapi = require('hapi');
 var Lab = require('lab');
 var Bobber = require('../lib');
 var Path = require('path');
