@@ -1,8 +1,9 @@
 var Code = require('code');
 var Fs = require('fs');
 var Lab = require('lab');
-var Bobber = require('../lib');
 var Path = require('path');
+
+var Bobber = require('../lib');
 
 var internals = {};
 
@@ -17,14 +18,15 @@ describe('bobber', function () {
 
     it('getCheckoutCommand new', function (done) {
         Fs.mkdirSync(bobberPath);
-        var scm = { type: 'github',
-                    branch: 'master',
-                    url: 'https://github.com/fishin/bobber'
+        var scm = {
+            type: 'github',
+            branch: 'master',
+            url: 'https://github.com/fishin/bobber'
         };
         var bobber = new Bobber;
-        var command = bobber.getCheckoutCommand(bobberPath, scm);
+        var commands = bobber.getCheckoutCommands(bobberPath, scm);
         Fs.rmdirSync(bobberPath);
-        expect(command).to.contain('git clone --depth=50 --branch=master https://github.com/fishin/bobber .');
+        expect(commands).to.include([ 'git clone --depth=50 --branch=master https://github.com/fishin/bobber .' ]);
         done();
     });
 
@@ -33,15 +35,16 @@ describe('bobber', function () {
         var gitPath = Path.join(bobberPath, '.git');
         Fs.mkdirSync(bobberPath);
         Fs.mkdirSync(gitPath);
-        var scm = { type: 'github',
-                    branch: 'master',
-                    url: 'git@github.com:fishin/bobber'
+        var scm = {
+            type: 'github',
+            branch: 'master',
+            url: 'git@github.com:fishin/bobber'
         };
         var bobber = new Bobber;
-        var command = bobber.getCheckoutCommand(bobberPath, scm);
+        var commands = bobber.getCheckoutCommands(bobberPath, scm);
         Fs.rmdirSync(gitPath);
         Fs.rmdirSync(bobberPath);
-        expect(command).to.contain('git pull --depth=50 origin master');
+        expect(commands).to.include([ 'git pull --depth=50 origin master' ]);
         done();
     });
 
