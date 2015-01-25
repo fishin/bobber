@@ -59,17 +59,26 @@ describe('bobber', function () {
         done();
     });
 
+    it('getCommits none', function (done) {
+
+        var bobber = new Bobber;
+        // get commits for this repo
+        bobber.getCommits('/tmp', null, function(commits) {
+
+            expect(commits.length).to.equal(0);
+            done();
+        });
+    });
+
     it('getCommits', function (done) {
 
         var bobber = new Bobber;
         // get commits for this repo
-        setTimeout(function() {
-            bobber.getCommits(process.cwd(), null, function(commits) {
+        bobber.getCommits('.', null, function(commits) {
 
-                expect(commits.length).to.above(0);
-                done();
-            });
-        }, 1000);
+            expect(commits.length).to.above(0);
+            done();
+        });
     });
 
     it('getLatestCommit', function (done) {
