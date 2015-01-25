@@ -63,11 +63,13 @@ describe('bobber', function () {
 
         var bobber = new Bobber;
         // get commits for this repo
-        bobber.getCommits(process.cwd(), null, function(commits) {
+        setTimeout(function() {
+            bobber.getCommits(process.cwd(), null, function(commits) {
 
-            expect(commits.length).to.above(0);
-            done();
-        });
+                expect(commits.length).to.above(0);
+                done();
+            });
+        }, 1000);
     });
 
     it('getLatestCommit', function (done) {
