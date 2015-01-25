@@ -12,7 +12,7 @@ var expect = Code.expect;
 var describe = lab.describe;
 var it = lab.it;
 
-var bobberPath = '/tmp/testbobber';
+var bobberPath = 'tmp';
 
 describe('bobber', function () {
 
@@ -59,4 +59,14 @@ describe('bobber', function () {
         done();
     });
 
+    it('getCommits', function (done) {
+
+        var bobber = new Bobber;
+        // get commits for this repo
+        bobber.getCommits(process.cwd(), function(commits) {
+
+            expect(commits.length).to.above(0);
+            done();
+        });
+    });
 });
