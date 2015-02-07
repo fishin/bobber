@@ -86,6 +86,16 @@ describe('bobber', function () {
         done();
     });
 
+    it('getBranches', function (done) {
+
+        var bobber = new Bobber;
+        // get commits for this repo
+        var branches = bobber.getBranches('.');
+        //console.log(branches);
+        expect(branches.length).to.above(0);
+        done();
+    });
+
     it('getCommits compare', function (done) {
 
         var bobber = new Bobber;
