@@ -85,4 +85,15 @@ describe('bobber', function () {
         expect(commit.length).to.equal(40);
         done();
     });
+
+    it('getCommits compare', function (done) {
+
+        var bobber = new Bobber;
+        // get commits for this repo
+        var commits = bobber.getCommits('.', null);
+        var prevCommit = commits[1].commit;
+        var commitsCompare = bobber.getCommits('.', prevCommit);
+        expect(commitsCompare.length).to.equal(1);
+        done();
+    });
 });
