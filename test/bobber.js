@@ -82,7 +82,7 @@ describe('bobber', function () {
         var bobber = new Bobber;
         // get commits for this repo
         var commit = bobber.getLatestCommit('.');
-        expect(commit.length).to.be.above(0);
+        expect(commit.length).to.equal(40);
         done();
     });
 });
