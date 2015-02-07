@@ -106,4 +106,43 @@ describe('bobber', function () {
         expect(commitsCompare.length).to.equal(1);
         done();
     });
+
+    it('validUrl ssh', function (done) {
+
+        var bobber = new Bobber;
+        // get commits for this repo
+        var scm = {
+            type: 'github',
+            branch: 'master',
+            url: 'git@github.com:fishin/bobber'
+        };
+        expect(bobber.validateUrl(scm)).to.be.true();
+        done();
+    });
+
+    it('validateUrl http valid', function (done) {
+
+        var bobber = new Bobber;
+        // get commits for this repo
+        var scm = {
+            type: 'github',
+            branch: 'master',
+            url: 'http://github.com/fishin/bobber'
+        };
+        expect(bobber.validateUrl(scm)).to.be.true();
+        done();
+    });
+
+    it('validateUrl http invalid', function (done) {
+
+        var bobber = new Bobber;
+        // get commits for this repo
+        var scm = {
+            type: 'github',
+            branch: 'master',
+            url: 'http://github.com/fishin/invalid'
+        };
+        expect(bobber.validateUrl(scm)).to.be.false();
+        done();
+    });
 });
