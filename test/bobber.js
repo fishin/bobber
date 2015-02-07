@@ -120,27 +120,27 @@ describe('bobber', function () {
         done();
     });
 
-    it('validateUrl http valid', function (done) {
+    it('validateUrl https valid', function (done) {
 
         var bobber = new Bobber;
         // get commits for this repo
         var scm = {
             type: 'github',
             branch: 'master',
-            url: 'http://github.com/fishin/bobber'
+            url: 'https://github.com/fishin/bobber'
         };
         expect(bobber.validateUrl(scm)).to.be.true();
         done();
     });
 
-    it('validateUrl http invalid', function (done) {
+    it('validateUrl https invalid', function (done) {
 
         var bobber = new Bobber;
         // get commits for this repo
         var scm = {
             type: 'github',
             branch: 'master',
-            url: 'http://github.com/fishin/invalid'
+            url: 'https://github.com/fishin/invalid'
         };
         expect(bobber.validateUrl(scm)).to.be.false();
         done();
