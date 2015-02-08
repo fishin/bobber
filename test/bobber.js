@@ -59,20 +59,20 @@ describe('bobber', function () {
         done();
     });
 
-    it('getCommits none', function (done) {
+    it('getAllCommits none', function (done) {
 
         var bobber = new Bobber;
         // get commits for this repo
-        var commits = bobber.getCommits('/tmp', null);
+        var commits = bobber.getAllCommits('/tmp');
         expect(commits.length).to.equal(0);
         done();
     });
 
-    it('getCommits', function (done) {
+    it('getAllCommits', function (done) {
 
         var bobber = new Bobber;
         // get commits for this repo
-        var commits = bobber.getCommits('.', null);
+        var commits = bobber.getAllCommits('.');
         expect(commits.length).to.above(0);
         done();
     });
@@ -96,13 +96,13 @@ describe('bobber', function () {
         done();
     });
 
-    it('getCommits compare', function (done) {
+    it('getCompareCommits', function (done) {
 
         var bobber = new Bobber;
         // get commits for this repo
-        var commits = bobber.getCommits('.', null);
+        var commits = bobber.getAllCommits('.');
         var prevCommit = commits[1].commit;
-        var commitsCompare = bobber.getCommits('.', prevCommit);
+        var commitsCompare = bobber.getCompareCommits('.', commits[0].commit, commits[1].commit);
         expect(commitsCompare.length).to.equal(1);
         done();
     });
