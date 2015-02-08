@@ -17,41 +17,6 @@ var bobberPath = __dirname + '/tmp';
 
 describe('bobber', function () {
 
-    it('getCheckoutCommand new', function (done) {
-
-        Fs.mkdirSync(bobberPath);
-        var scm = {
-            type: 'github',
-            branch: 'master',
-            url: 'https://github.com/fishin/bobber'
-        };
-        var bobber = new Bobber;
-        var commands = bobber.getCheckoutCommands(bobberPath, scm);
-        Fs.rmdirSync(bobberPath);
-        //expect(commands).to.include([ 'git clone --depth=50 --branch=master https://github.com/fishin/bobber .' ]);
-        expect(commands).to.include([ 'git clone --branch=master https://github.com/fishin/bobber .' ]);
-        done();
-    });
-
-    it('getCheckoutCommand existing', function (done) {
-
-        var gitPath = Path.join(bobberPath, '.git');
-        Fs.mkdirSync(bobberPath);
-        Fs.mkdirSync(gitPath);
-        var scm = {
-            type: 'github',
-            branch: 'master',
-            url: 'git@github.com:fishin/bobber'
-        };
-        var bobber = new Bobber;
-        var commands = bobber.getCheckoutCommands(bobberPath, scm);
-        Fs.rmdirSync(gitPath);
-        Fs.rmdirSync(bobberPath);
-        //expect(commands).to.include([ 'git pull --depth=50 origin master' ]);
-        expect(commands).to.include([ 'git pull origin master' ]);
-        done();
-    });
-
     it('checkoutCode new', function (done) {
 
         var pail = new Pail({dirPath: bobberPath});
