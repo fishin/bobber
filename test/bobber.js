@@ -32,8 +32,8 @@ describe('bobber', function () {
         var result = bobber.checkoutCode(bobberPath+'/'+config.id+'/workspace', scm);
         expect(result.startTime).to.exist();
         expect(result.finishTime).to.exist();
-        expect(result.command).to.include('git clone');
-        expect(result.stderr).to.include('Cloning into');
+        expect(result.commands[0].command).to.include('git clone');
+        expect(result.commands[0].stderr).to.include('Cloning into');
         expect(result.status).to.equal('succeeded');
         done();
     });
@@ -52,9 +52,9 @@ describe('bobber', function () {
         var result = bobber.checkoutCode(bobberPath+'/'+config.id+'/workspace', scm);
         expect(result.startTime).to.exist();
         expect(result.finishTime).to.exist();
-        expect(result.stderr).to.include('fishin/bobber');
-        expect(result.stdout).to.include('Already up-to-date.');
-        expect(result.command).to.include('git pull origin master');
+        expect(result.commands[0].stderr).to.include('fishin/bobber');
+        expect(result.commands[0].stdout).to.include('Already up-to-date.');
+        expect(result.commands[0].command).to.include('git pull origin master');
         expect(result.status).to.equal('succeeded');
         // cleanup
         pail.deletePail(config.id);
