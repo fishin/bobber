@@ -3,10 +3,6 @@
   "version": "0.0.3",
   "description": "bobber ======",
   "main": "index.js",
-  "scripts": {
-    "test": "lab -a code -t 100 -v -m 10000",
-    "json": "lab -a code -r json -t 100 -o lab.json -m 10000"
-  },
   "repository": {
     "type": "git",
     "url": "git://github.com/fishin/bobber"
@@ -17,6 +13,13 @@
     "url": "https://github.com/fishin/bobber/issues"
   },
   "homepage": "https://github.com/fishin/bobber",
+  "engines": {
+    "node": ">=0.12.x"
+  },
+  "scripts": {
+    "test": "lab -a code -t 100 -v -m 10000",
+    "json": "lab -a code -r json -t 100 -o lab.json -m 10000"
+  },
   "dependencies": {
     "smelt": "git+https://github.com/fishin/smelt"
   },
