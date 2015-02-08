@@ -2,6 +2,7 @@ var Code = require('code');
 var Fs = require('fs');
 var Lab = require('lab');
 var Path = require('path');
+var Pail = require('pail');
 
 var Bobber = require('../lib');
 
@@ -12,11 +13,12 @@ var expect = Code.expect;
 var describe = lab.describe;
 var it = lab.it;
 
-var bobberPath = 'tmp';
+var bobberPath = __dirname + '/tmp';
 
 describe('bobber', function () {
 
     it('getCheckoutCommand new', function (done) {
+
         Fs.mkdirSync(bobberPath);
         var scm = {
             type: 'github',
@@ -47,6 +49,51 @@ describe('bobber', function () {
         Fs.rmdirSync(bobberPath);
         //expect(commands).to.include([ 'git pull --depth=50 origin master' ]);
         expect(commands).to.include([ 'git pull origin master' ]);
+        done();
+    });
+
+    it('checkoutCode new', function (done) {
+
+        var pail = new Pail({dirPath: bobberPath});
+        var config = pail.createPail({name: 'checkoutCode'});
+        
+        pail.createDir(config.id + '/workspace');
+        var scm = {
+            type: 'github',
+            branch: 'master',
+            url: 'https://github.com/fishin/bobber'
+        };
+        var bobber = new Bobber;
+        var result = bobber.checkoutCode(bobberPath+'/'+config.id+'/workspace', scm);
+        expect(result.startTime).to.exist();
+        expect(result.finishTime).to.exist();
+        expect(result.command).to.include('git clone');
+        expect(result.stderr).to.include('Cloning into');
+        expect(result.status).to.equal('succeeded');
+        done();
+    });
+
+    it('checkoutCode existing', function (done) {
+
+        var scm = {
+            type: 'github',
+            branch: 'master',
+            url: 'git@github.com:fishin/bobber'
+        };
+        var bobber = new Bobber;
+        var pail = new Pail({dirPath: bobberPath});
+        var pails = pail.getPails();
+        var config = pail.getPail(pails[0]);
+        var result = bobber.checkoutCode(bobberPath+'/'+config.id+'/workspace', scm);
+        expect(result.startTime).to.exist();
+        expect(result.finishTime).to.exist();
+        expect(result.stderr).to.include('fishin/bobber');
+        expect(result.stdout).to.include('Already up-to-date.');
+        expect(result.command).to.include('git pull origin master');
+        expect(result.status).to.equal('succeeded');
+        // cleanup
+        pail.deletePail(config.id);
+        Fs.rmdirSync(bobberPath);
         done();
     });
 
