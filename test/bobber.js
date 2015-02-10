@@ -98,6 +98,28 @@ describe('bobber', function () {
         done();
     });
 
+    it('getLatestRemoteCommit', function (done) {
+
+        var bobber = new Bobber;
+        var scm = {
+            branch: 'master'
+        };
+        var commit = bobber.getLatestRemoteCommit('.', scm);
+        expect(commit.length).to.equal(40);
+        done();
+    });
+
+    it('getLatestRemoteCommit invalid', function (done) {
+
+        var bobber = new Bobber;
+        var scm = {
+            branch: 'master1'
+        };
+        var commit = bobber.getLatestRemoteCommit('.', scm);
+        expect(commit).to.not.exist();
+        done();
+    });
+
     it('getBranches', function (done) {
 
         var bobber = new Bobber;
