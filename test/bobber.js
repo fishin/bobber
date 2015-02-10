@@ -151,7 +151,8 @@ describe('bobber', function () {
         var commits = bobber.getAllCommits('.');
         var prevCommit = commits[1].commit;
         var commitsCompare = bobber.getCompareCommits('.', commits[0].commit, commits[1].commit);
-        expect(commitsCompare.length).to.equal(1);
+        console.log(commitsCompare);
+        expect(commitsCompare.length).to.be.above(0);
         done();
     });
 
