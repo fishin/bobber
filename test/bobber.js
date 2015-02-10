@@ -120,6 +120,20 @@ describe('bobber', function () {
         done();
     });
 
+    it('getPullRequests', function (done) {
+
+        var bobber = new Bobber;
+        var scm = {
+            url: 'https://github.com/fishin/bobber'
+        };
+        var prs = bobber.getPullRequests('.', scm, 'head');
+        //console.log(prs);
+        expect(prs.length).to.be.above(0);
+        expect(prs[0].number).to.be.above(0);
+        expect(prs[0].commit.length).to.equal(40);
+        done();
+    });
+
     it('getBranches', function (done) {
 
         var bobber = new Bobber;
