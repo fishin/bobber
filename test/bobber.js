@@ -146,6 +146,18 @@ describe('bobber', function () {
         done();
     });
 
+    it('getPullRequests nopath', function (done) {
+
+        var bobber = new Bobber;
+        var scm = {
+            url: 'https://github.com/fishin/bobber'
+        };
+        var prs = bobber.getPullRequests('nopath', scm, 'head');
+        //console.log(prs);
+        expect(prs.length).to.equal(0);
+        done();
+    });
+
     it('getBranches', function (done) {
 
         var bobber = new Bobber;
