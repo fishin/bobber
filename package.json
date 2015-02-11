@@ -21,6 +21,7 @@
     "json": "lab -a code -r json -t 100 -o lab.json -m 10000"
   },
   "dependencies": {
+    "wreck": "5.x.x",
     "smelt": "git+https://github.com/fishin/smelt"
   },
   "devDependencies": {
