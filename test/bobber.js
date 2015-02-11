@@ -120,6 +120,38 @@ describe('bobber', function () {
         done();
     });
 
+    it('getOpenPullRequests', function (done) {
+
+        var bobber = new Bobber;
+        var scm = {
+            url: 'https://anon:anon@github.com/fishin/bobber'
+        };
+        bobber.getOpenPullRequests(scm, function(prs) {
+
+            //console.log(prs);
+            expect(prs.length).to.be.above(0);
+            expect(prs[0].number).to.be.above(0);
+            expect(prs[0].commit.length).to.equal(40);
+            expect(prs[0].shortCommit.length).to.equal(7);
+            expect(prs[0].repoUrl).to.equal('https://anon:anon@github.com/fishin/bobber');
+            done();
+        });
+    });
+
+    it('getOpenPullRequests invalid', function (done) {
+
+        var bobber = new Bobber;
+        var scm = {
+            url: 'https://github.com/fishin/invalid'
+        };
+        bobber.getOpenPullRequests(scm, function(prs) {
+
+           //console.log(prs);
+           expect(prs.length).to.equal(0);
+           done();
+        });
+    });
+
     it('getPullRequests', function (done) {
 
         var bobber = new Bobber;
