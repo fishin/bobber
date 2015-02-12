@@ -1,5 +1,6 @@
 var Code = require('code');
 var Fs = require('fs');
+var Hapi = require('hapi');
 var Lab = require('lab');
 var Path = require('path');
 var Pail = require('pail');
@@ -15,6 +16,29 @@ var it = lab.it;
 
 var bobberPath = __dirname + '/tmp';
 
+internals.mockGithub = function (rate_limit, repo, callback) {
+
+    var server = new Hapi.Server();
+    server.connection();
+    server.route([
+        {
+            method: 'GET',
+            path: '/rate_limit',
+            handler: {
+                file: __dirname + '/fixtures/' + rate_limit + '.json'
+            }
+        },
+        {
+            method: 'GET',
+            path: '/repos/org/' + repo + '/pulls',
+            handler: {
+                file: __dirname + '/fixtures/pulls_'+ repo + '.json'
+            }
+        }
+    ]);
+    callback(server);
+};
+
 describe('bobber', function () {
 
     it('checkoutCode new', function (done) {
@@ -28,7 +52,7 @@ describe('bobber', function () {
             branch: 'master',
             url: 'https://github.com/fishin/bobber'
         };
-        var bobber = new Bobber;
+        var bobber = new Bobber({});
         var result = bobber.checkoutCode(bobberPath+'/'+config.id+'/workspace', scm);
         expect(result.startTime).to.exist();
         expect(result.finishTime).to.exist();
@@ -45,7 +69,7 @@ describe('bobber', function () {
             branch: 'master',
             url: 'git@github.com:fishin/bobber'
         };
-        var bobber = new Bobber;
+        var bobber = new Bobber({});
         var pail = new Pail({dirPath: bobberPath});
         var pails = pail.getPails();
         var config = pail.getPail(pails[0]);
@@ -64,7 +88,7 @@ describe('bobber', function () {
 
     it('getElements', function (done) {
 
-        var bobber = new Bobber;
+        var bobber = new Bobber({});
         var elements = bobber.getElements();
         //console.log(elements);
         expect(elements).to.be.length(2);
@@ -73,7 +97,7 @@ describe('bobber', function () {
 
     it('getAllCommits none', function (done) {
 
-        var bobber = new Bobber;
+        var bobber = new Bobber({});
         // get commits for this repo
         var commits = bobber.getAllCommits('/tmp');
         expect(commits.length).to.equal(0);
@@ -82,7 +106,7 @@ describe('bobber', function () {
 
     it('getAllCommits', function (done) {
 
-        var bobber = new Bobber;
+        var bobber = new Bobber({});
         // get commits for this repo
         var commits = bobber.getAllCommits('.');
         expect(commits.length).to.above(0);
@@ -91,7 +115,7 @@ describe('bobber', function () {
 
     it('getLatestCommit', function (done) {
 
-        var bobber = new Bobber;
+        var bobber = new Bobber({});
         // get commits for this repo
         var commit = bobber.getLatestCommit('.');
         expect(commit.length).to.equal(40);
@@ -100,7 +124,7 @@ describe('bobber', function () {
 
     it('getLatestRemoteCommit', function (done) {
 
-        var bobber = new Bobber;
+        var bobber = new Bobber({});
         var scm = {
             branch: 'master'
         };
@@ -111,7 +135,7 @@ describe('bobber', function () {
 
     it('getLatestRemoteCommit invalid', function (done) {
 
-        var bobber = new Bobber;
+        var bobber = new Bobber({});
         var scm = {
             branch: 'master1'
         };
@@ -120,41 +144,76 @@ describe('bobber', function () {
         done();
     });
 
-    it('getOpenPullRequests', function (done) {
+    it('getOpenPullRequests rate_limit', function (done) {
 
-        var bobber = new Bobber;
-        var scm = {
-            url: 'https://anon:anon@github.com/fishin/bobber'
-        };
-        bobber.getOpenPullRequests(scm, function(prs) {
+        internals.mockGithub('rate_limit', 'repo', function (server) {
 
-            //console.log(prs);
-            expect(prs.length).to.be.above(0);
-            expect(prs[0].number).to.be.above(0);
-            expect(prs[0].commit.length).to.equal(40);
-            expect(prs[0].shortCommit.length).to.equal(7);
-            expect(prs[0].repoUrl).to.equal('https://anon:anon@github.com/fishin/bobber');
-            done();
+            server.start(function() {
+
+                var bobber = new Bobber({apiUrl: server.info.uri});
+                var scm = {
+                    url: 'https://anon:anon@github.com/org/repo'
+                };
+                bobber.getOpenPullRequests(scm, function(prs) {
+
+                    //console.log(prs);
+                    expect(prs.length).to.be.above(0);
+                    expect(prs[0].number).to.be.above(0);
+                    expect(prs[0].commit.length).to.equal(40);
+                    expect(prs[0].shortCommit.length).to.equal(7);
+                    expect(prs[0].repoUrl).to.equal('https://anon:anon@github.com/org/repo');
+                    server.stop();
+                    done();
+                });
+            });
+        });
+    });
+
+    it('getOpenPullRequests rate_limit_reached', function (done) {
+
+        internals.mockGithub('rate_limit_reached', 'repo', function (server) {
+
+            server.start(function() {
+
+                var bobber = new Bobber({apiUrl: server.info.uri});
+                var scm = {
+                    url: 'https://anon:anon@github.com/org/repo'
+                };
+                bobber.getOpenPullRequests(scm, function(prs) {
+
+                    //console.log(prs);
+                    expect(prs.length).to.equal(0);
+                    server.stop();
+                    done();
+                });
+            });
         });
     });
 
     it('getOpenPullRequests invalid', function (done) {
 
-        var bobber = new Bobber;
-        var scm = {
-            url: 'https://github.com/fishin/invalid'
-        };
-        bobber.getOpenPullRequests(scm, function(prs) {
+        internals.mockGithub('rate_limit', 'invalid', function (server) {
 
-           //console.log(prs);
-           expect(prs.length).to.equal(0);
-           done();
+            server.start(function() {
+
+                var bobber = new Bobber({apiUrl: server.info.uri});
+                var scm = {
+                    url: 'https://anon:anon@github.com/org/invalid'
+                };
+                bobber.getOpenPullRequests(scm, function(prs) {
+
+                    //console.log(prs);
+                    expect(prs.length).to.equal(0);
+                    server.stop();
+                    done();
+                });
+            });
         });
     });
 
     it('getPullRequests', function (done) {
 
-        var bobber = new Bobber;
+        var bobber = new Bobber({});
         var scm = {
             url: 'https://anon:anon@github.com/fishin/bobber'
         };
@@ -170,7 +229,7 @@ describe('bobber', function () {
 
     it('getPullRequests invalid', function (done) {
 
-        var bobber = new Bobber;
+        var bobber = new Bobber({});
         var scm = {
             url: 'https://github.com/fishin/invalid'
         };
@@ -182,7 +241,7 @@ describe('bobber', function () {
 
     it('getPullRequests nopath', function (done) {
 
-        var bobber = new Bobber;
+        var bobber = new Bobber({});
         var scm = {
             url: 'https://github.com/fishin/bobber'
         };
@@ -194,7 +253,7 @@ describe('bobber', function () {
 
     it('getBranches', function (done) {
 
-        var bobber = new Bobber;
+        var bobber = new Bobber({});
         // get commits for this repo
         var branches = bobber.getBranches('.');
         //console.log(branches);
@@ -204,7 +263,7 @@ describe('bobber', function () {
 
     it('getCompareCommits', function (done) {
 
-        var bobber = new Bobber;
+        var bobber = new Bobber({});
         // get commits for this repo
         var commits = bobber.getAllCommits('.');
         var prevCommit = commits[1].commit;
@@ -216,7 +275,7 @@ describe('bobber', function () {
 
     it('validUrl ssh', function (done) {
 
-        var bobber = new Bobber;
+        var bobber = new Bobber({});
         // get commits for this repo
         var scm = {
             type: 'github',
@@ -229,7 +288,7 @@ describe('bobber', function () {
 
     it('validateUrl https valid', function (done) {
 
-        var bobber = new Bobber;
+        var bobber = new Bobber({});
         // get commits for this repo
         var scm = {
             type: 'github',
@@ -242,7 +301,7 @@ describe('bobber', function () {
 
     it('validateUrl https invalid', function (done) {
 
-        var bobber = new Bobber;
+        var bobber = new Bobber({});
         // get commits for this repo
         var scm = {
             type: 'github',

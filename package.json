@@ -17,15 +17,17 @@
     "node": ">=0.12.x"
   },
   "scripts": {
-    "test": "lab -a code -t 95 -v -m 10000",
+    "test": "lab -a code -t 100 -v -m 10000",
     "json": "lab -a code -r json -t 100 -o lab.json -m 10000"
   },
   "dependencies": {
+    "hoek": "2.x.x",
     "wreck": "5.x.x",
     "smelt": "git+https://github.com/fishin/smelt"
   },
   "devDependencies": {
     "code": "1.x.x",
+    "hapi": "8.x.x",
     "lab": "5.x.x",
     "pail": "git+https://github.com/fishin/pail"
   }
