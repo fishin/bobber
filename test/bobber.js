@@ -144,7 +144,7 @@ describe('bobber', function () {
         done();
     });
 
-    it('getOpenPullRequests rate_limit', function (done) {
+    it('getOpenPullRequests rate_limit https user', function (done) {
 
         internals.mockGithub('rate_limit', 'repo', function (server) {
 
@@ -162,6 +162,56 @@ describe('bobber', function () {
                     expect(prs[0].commit.length).to.equal(40);
                     expect(prs[0].shortCommit.length).to.equal(7);
                     expect(prs[0].repoUrl).to.equal('https://anon:anon@github.com/org/repo');
+                    server.stop();
+                    done();
+                });
+            });
+        });
+    });
+
+    it('getOpenPullRequests rate_limit https', function (done) {
+
+        internals.mockGithub('rate_limit', 'repo', function (server) {
+
+            server.start(function() {
+
+                var bobber = new Bobber({apiUrl: server.info.uri});
+                var scm = {
+                    url: 'https://github.com/org/repo'
+                };
+                bobber.getOpenPullRequests(scm, function(prs) {
+
+                    //console.log(prs);
+                    expect(prs.length).to.be.above(0);
+                    expect(prs[0].number).to.be.above(0);
+                    expect(prs[0].commit.length).to.equal(40);
+                    expect(prs[0].shortCommit.length).to.equal(7);
+                    expect(prs[0].repoUrl).to.equal('https://github.com/org/repo');
+                    server.stop();
+                    done();
+                });
+            });
+        });
+    });
+
+    it('getOpenPullRequests rate_limit ssh', function (done) {
+
+        internals.mockGithub('rate_limit', 'repo', function (server) {
+
+            server.start(function() {
+
+                var bobber = new Bobber({apiUrl: server.info.uri});
+                var scm = {
+                    url: 'git@github.com/org/repo'
+                };
+                bobber.getOpenPullRequests(scm, function(prs) {
+
+                    //console.log(prs);
+                    expect(prs.length).to.be.above(0);
+                    expect(prs[0].number).to.be.above(0);
+                    expect(prs[0].commit.length).to.equal(40);
+                    expect(prs[0].shortCommit.length).to.equal(7);
+                    expect(prs[0].repoUrl).to.equal('git@github.com/org/repo');
                     server.stop();
                     done();
                 });
@@ -211,7 +261,7 @@ describe('bobber', function () {
         });
     });
 
-    it('getPullRequests', function (done) {
+    it('getPullRequests https', function (done) {
 
         var bobber = new Bobber({});
         var scm = {
