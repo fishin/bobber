@@ -128,7 +128,7 @@ describe('bobber', function () {
         var scm = {
             branch: 'master'
         };
-        var commit = bobber.getLatestRemoteCommit('.', scm);
+        var commit = bobber.getLatestRemoteCommit(scm);
         expect(commit.length).to.equal(40);
         done();
     });
