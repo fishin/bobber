@@ -261,46 +261,6 @@ describe('bobber', function () {
         });
     });
 
-    it('getPullRequests https', function (done) {
-
-        var bobber = new Bobber({});
-        var scm = {
-            url: 'https://anon:anon@github.com/fishin/bobber'
-        };
-        var prs = bobber.getPullRequests('.', scm, 'head');
-        //console.log(prs);
-        expect(prs.length).to.be.above(0);
-        expect(prs[0].number).to.be.above(0);
-        expect(prs[0].commit.length).to.equal(40);
-        expect(prs[0].shortCommit.length).to.equal(7);
-        expect(prs[0].repoUrl).to.equal('https://anon:anon@github.com/fishin/bobber');
-        done();
-    });
-
-    it('getPullRequests invalid', function (done) {
-
-        var bobber = new Bobber({});
-        var scm = {
-            url: 'https://github.com/fishin/invalid'
-        };
-        var prs = bobber.getPullRequests('.', scm, 'head');
-        //console.log(prs);
-        expect(prs.length).to.equal(0);
-        done();
-    });
-
-    it('getPullRequests nopath', function (done) {
-
-        var bobber = new Bobber({});
-        var scm = {
-            url: 'https://github.com/fishin/bobber'
-        };
-        var prs = bobber.getPullRequests('nopath', scm, 'head');
-        //console.log(prs);
-        expect(prs.length).to.equal(0);
-        done();
-    });
-
     it('getBranches', function (done) {
 
         var bobber = new Bobber({});
