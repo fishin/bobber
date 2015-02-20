@@ -16,7 +16,7 @@ var it = lab.it;
 
 var bobberPath = __dirname + '/tmp';
 
-internals.mockGithub = function (rate_limit, repo, callback) {
+internals.mockGithub = function (rateLimit, repo, callback) {
 
     var server = new Hapi.Server();
     server.connection();
@@ -25,14 +25,14 @@ internals.mockGithub = function (rate_limit, repo, callback) {
             method: 'GET',
             path: '/rate_limit',
             handler: {
-                file: __dirname + '/fixtures/' + rate_limit + '.json'
+                file: __dirname + '/fixtures/' + rateLimit + '.json'
             }
         },
         {
             method: 'GET',
             path: '/repos/org/' + repo + '/pulls',
             handler: {
-                file: __dirname + '/fixtures/pulls_'+ repo + '.json'
+                file: __dirname + '/fixtures/pulls_' + repo + '.json'
             }
         }
     ]);
@@ -45,7 +45,6 @@ describe('bobber', function () {
 
         var pail = new Pail({dirPath: bobberPath});
         var config = pail.createPail({name: 'checkoutCode'});
-        
         pail.createDir(config.id + '/workspace');
         var scm = {
             type: 'github',
@@ -53,7 +52,7 @@ describe('bobber', function () {
             url: 'https://github.com/fishin/bobber'
         };
         var bobber = new Bobber({});
-        var result = bobber.checkoutCode(bobberPath+'/'+config.id+'/workspace', scm);
+        var result = bobber.checkoutCode(bobberPath + '/' + config.id + '/workspace', scm);
         expect(result.startTime).to.exist();
         expect(result.finishTime).to.exist();
         expect(result.commands[0].command).to.include('git clone');
@@ -73,7 +72,7 @@ describe('bobber', function () {
         var pail = new Pail({dirPath: bobberPath});
         var pails = pail.getPails();
         var config = pail.getPail(pails[0]);
-        var result = bobber.checkoutCode(bobberPath+'/'+config.id+'/workspace', scm);
+        var result = bobber.checkoutCode(bobberPath + '/' + config.id + '/workspace', scm);
         expect(result.startTime).to.exist();
         expect(result.finishTime).to.exist();
         expect(result.commands[0].stderr).to.include('fishin/bobber');
