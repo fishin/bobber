@@ -8,3 +8,7 @@ source control for ficion
 [![devDependency Status](https://david-dm.org/fishin/bobber/dev-status.svg)](https://david-dm.org/fishin/bobber#info=devDependencies)
 
 Bobber is a git specific library for functions useful for the ficion project.
+
+Functions are:
+
+
