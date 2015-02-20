@@ -167,7 +167,8 @@ describe('bobber', function () {
                 var scm = {
                     url: 'https://anon:anon@github.com/org/repo'
                 };
-                bobber.getPullRequests(scm, function(prs) {
+                var token = 1;
+                bobber.getPullRequests(scm, token, function(prs) {
 
                     //console.log(prs);
                     expect(prs.length).to.be.above(0);
@@ -193,7 +194,8 @@ describe('bobber', function () {
                 var scm = {
                     url: 'https://github.com/org/repo'
                 };
-                bobber.getPullRequest(scm, 14, function(pr) {
+                var token = 1;
+                bobber.getPullRequest(scm, 14, token, function(pr) {
 
                     //console.log(pr);
                     expect(pr.number).to.be.above(0);
@@ -243,7 +245,8 @@ describe('bobber', function () {
                 var scm = {
                     url: 'https://github.com/org/repo'
                 };
-                bobber.getPullRequests(scm, function(prs) {
+                var token = 1;
+                bobber.getPullRequests(scm, token, function(prs) {
 
                     //console.log(prs);
                     expect(prs.length).to.be.above(0);
@@ -269,7 +272,8 @@ describe('bobber', function () {
                 var scm = {
                     url: 'git@github.com/org/repo'
                 };
-                bobber.getPullRequests(scm, function(prs) {
+                var token = 1;
+                bobber.getPullRequests(scm, token, function(prs) {
 
                     //console.log(prs);
                     expect(prs.length).to.be.above(0);
@@ -295,7 +299,8 @@ describe('bobber', function () {
                 var scm = {
                     url: 'https://anon:anon@github.com/org/repo'
                 };
-                bobber.getPullRequests(scm, function(prs) {
+                var token = 1;
+                bobber.getPullRequests(scm, token, function(prs) {
 
                     //console.log(prs);
                     expect(prs.length).to.equal(0);
@@ -316,7 +321,8 @@ describe('bobber', function () {
                 var scm = {
                     url: 'https://anon:anon@github.com/org/invalid'
                 };
-                bobber.getPullRequests(scm, function(prs) {
+                var token = 1;
+                bobber.getPullRequests(scm, token, function(prs) {
 
                     //console.log(prs);
                     expect(prs.length).to.equal(0);
