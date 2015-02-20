@@ -157,7 +157,7 @@ describe('bobber', function () {
         done();
     });
 
-    it('getOpenPullRequests rate_limit https user', function (done) {
+    it('getPullRequests rate_limit https user', function (done) {
 
         internals.mockGithub('rate_limit', 'repo', 'merge', function (server) {
 
@@ -167,7 +167,7 @@ describe('bobber', function () {
                 var scm = {
                     url: 'https://anon:anon@github.com/org/repo'
                 };
-                bobber.getOpenPullRequests(scm, function(prs) {
+                bobber.getPullRequests(scm, function(prs) {
 
                     //console.log(prs);
                     expect(prs.length).to.be.above(0);
@@ -233,7 +233,7 @@ describe('bobber', function () {
         });
     });
 
-    it('getOpenPullRequests rate_limit https', function (done) {
+    it('getPullRequests rate_limit https', function (done) {
 
         internals.mockGithub('rate_limit', 'repo', 'merge', function (server) {
 
@@ -243,7 +243,7 @@ describe('bobber', function () {
                 var scm = {
                     url: 'https://github.com/org/repo'
                 };
-                bobber.getOpenPullRequests(scm, function(prs) {
+                bobber.getPullRequests(scm, function(prs) {
 
                     //console.log(prs);
                     expect(prs.length).to.be.above(0);
@@ -259,7 +259,7 @@ describe('bobber', function () {
         });
     });
 
-    it('getOpenPullRequests rate_limit ssh', function (done) {
+    it('getPullRequests rate_limit ssh', function (done) {
 
         internals.mockGithub('rate_limit', 'repo', 'merge', function (server) {
 
@@ -269,7 +269,7 @@ describe('bobber', function () {
                 var scm = {
                     url: 'git@github.com/org/repo'
                 };
-                bobber.getOpenPullRequests(scm, function(prs) {
+                bobber.getPullRequests(scm, function(prs) {
 
                     //console.log(prs);
                     expect(prs.length).to.be.above(0);
@@ -285,7 +285,7 @@ describe('bobber', function () {
         });
     });
 
-    it('getOpenPullRequests rate_limit_reached', function (done) {
+    it('getPullRequests rate_limit_reached', function (done) {
 
         internals.mockGithub('rate_limit_reached', 'repo', 'merge', function (server) {
 
@@ -295,7 +295,7 @@ describe('bobber', function () {
                 var scm = {
                     url: 'https://anon:anon@github.com/org/repo'
                 };
-                bobber.getOpenPullRequests(scm, function(prs) {
+                bobber.getPullRequests(scm, function(prs) {
 
                     //console.log(prs);
                     expect(prs.length).to.equal(0);
@@ -306,7 +306,7 @@ describe('bobber', function () {
         });
     });
 
-    it('getOpenPullRequests invalid', function (done) {
+    it('getPullRequests invalid', function (done) {
 
         internals.mockGithub('rate_limit', 'invalid', 'merge', function (server) {
 
@@ -316,7 +316,7 @@ describe('bobber', function () {
                 var scm = {
                     url: 'https://anon:anon@github.com/org/invalid'
                 };
-                bobber.getOpenPullRequests(scm, function(prs) {
+                bobber.getPullRequests(scm, function(prs) {
 
                     //console.log(prs);
                     expect(prs.length).to.equal(0);
