@@ -160,6 +160,7 @@ describe('bobber', function () {
                     expect(prs.length).to.be.above(0);
                     expect(prs[0].number).to.be.above(0);
                     expect(prs[0].commit.length).to.equal(40);
+                    expect(prs[0].mergeCommit.length).to.equal(40);
                     expect(prs[0].shortCommit.length).to.equal(7);
                     expect(prs[0].repoUrl).to.equal('https://anon:anon@github.com/org/repo');
                     server.stop();
@@ -185,6 +186,7 @@ describe('bobber', function () {
                     expect(prs.length).to.be.above(0);
                     expect(prs[0].number).to.be.above(0);
                     expect(prs[0].commit.length).to.equal(40);
+                    expect(prs[0].mergeCommit.length).to.equal(40);
                     expect(prs[0].shortCommit.length).to.equal(7);
                     expect(prs[0].repoUrl).to.equal('https://github.com/org/repo');
                     server.stop();
@@ -210,6 +212,7 @@ describe('bobber', function () {
                     expect(prs.length).to.be.above(0);
                     expect(prs[0].number).to.be.above(0);
                     expect(prs[0].commit.length).to.equal(40);
+                    expect(prs[0].mergeCommit.length).to.equal(40);
                     expect(prs[0].shortCommit.length).to.equal(7);
                     expect(prs[0].repoUrl).to.equal('git@github.com/org/repo');
                     server.stop();
