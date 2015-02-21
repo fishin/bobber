@@ -10,5 +10,3 @@ source control for ficion
 Bobber is a git specific library for functions useful for the ficion project.
 
 Functions are:
-
-something 2
