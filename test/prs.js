@@ -360,7 +360,6 @@ describe('pull requests', function () {
         });
     });
 
-
     it('mergePullRequest merge rate_limit', function (done) {
 
         var type = 'github';
@@ -399,15 +398,15 @@ describe('pull requests', function () {
             });
         });
     });
-/*
-    it('mergePullRequest merge rate_limit notfound', function (done) {
+
+    it('mergePullRequest merge rate_limit error.txt', function (done) {
 
         var type = 'github';
         var routes = [
             {
                 method: 'put',
                 path: '/repos/org/repo/pulls/1/merge',
-                file: 'notfound.json'
+                file: 'error.txt'
             },
             {
                 method: 'get',
@@ -427,7 +426,7 @@ describe('pull requests', function () {
                 var number = 1;
                 bobber.mergePullRequest(scm, number, token, function(result) {
 
-                    console.log(result);
+                    //console.log(result);
                     expect(result.error).to.exist();
                     server.stop();
                     done();
@@ -435,7 +434,6 @@ describe('pull requests', function () {
             });
         });
     });
-*/
 
     it('mergePullRequest mergefail rate_limit', function (done) {
 
