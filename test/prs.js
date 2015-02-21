@@ -62,7 +62,7 @@ internals.mockGithub = function (rateLimit, repo, merge, callback) {
 
 describe('pull requests', function () {
 
-    it('getPullRequests rate_limit https user', function (done) {
+    it('getPullRequests rate_limit https user notoken', function (done) {
 
         internals.mockGithub('rate_limit', 'repo', 'merge', function (server) {
 
@@ -88,7 +88,34 @@ describe('pull requests', function () {
         });
     });
 
-    it('getPullRequest', function (done) {
+    it('getPullRequests rate_limit https user token', function (done) {
+
+        internals.mockGithub('rate_limit', 'repo', 'merge', function (server) {
+
+            server.start(function() {
+
+                var bobber = new Bobber({apiUrl: server.info.uri});
+                var scm = {
+                    url: 'https://anon:anon@github.com/org/repo'
+                };
+                var token = 1;
+                bobber.getPullRequests(scm, token, function(prs) {
+
+                    //console.log(prs);
+                    expect(prs.length).to.be.above(0);
+                    expect(prs[0].number).to.be.above(0);
+                    expect(prs[0].commit.length).to.equal(40);
+                    expect(prs[0].mergeCommit.length).to.equal(40);
+                    expect(prs[0].shortCommit.length).to.equal(7);
+                    expect(prs[0].repoUrl).to.equal('https://anon:anon@github.com/org/repo');
+                    server.stop();
+                    done();
+                });
+            });
+        });
+    });
+
+    it('getPullRequest rate_limit notoken', function (done) {
 
         internals.mockGithub('rate_limit', 'repo', 'merge', function (server) {
 
@@ -113,7 +140,54 @@ describe('pull requests', function () {
         });
     });
 
-    it('updateCommitStatus', function (done) {
+    it('getPullRequest rate_limit_reached notoken', function (done) {
+
+        internals.mockGithub('rate_limit_reached', 'repo', 'merge', function (server) {
+
+            server.start(function() {
+
+                var bobber = new Bobber({apiUrl: server.info.uri});
+                var scm = {
+                    url: 'https://github.com/org/repo'
+                };
+                bobber.getPullRequest(scm, 14, null, function(pr) {
+
+                    //console.log(pr);
+                    expect(pr).to.not.exist();
+                    server.stop();
+                    done();
+                });
+            });
+        });
+    });
+
+    it('getPullRequest rate_limit token', function (done) {
+
+        internals.mockGithub('rate_limit', 'repo', 'merge', function (server) {
+
+            server.start(function() {
+
+                var bobber = new Bobber({apiUrl: server.info.uri});
+                var scm = {
+                    url: 'https://github.com/org/repo'
+                };
+                var token = 1;
+                bobber.getPullRequest(scm, 14, token, function(pr) {
+
+                    //console.log(pr);
+                    expect(pr.number).to.be.above(0);
+                    expect(pr.commit.length).to.equal(40);
+                    expect(pr.mergeCommit.length).to.equal(40);
+                    expect(pr.shortCommit.length).to.equal(7);
+                    expect(pr.repoUrl).to.equal('https://github.com/org/repo');
+                    server.stop();
+                    done();
+                });
+            });
+        });
+    });
+
+    it('updateCommitStatus rate_limit', function (done) {
 
         internals.mockGithub('rate_limit', 'repo', 'merge', function (server) {
 
@@ -138,7 +212,31 @@ describe('pull requests', function () {
         });
     });
 
-    it('mergePullRequest', function (done) {
+    it('updateCommitStatus rate_limit_reached', function (done) {
+
+        internals.mockGithub('rate_limit_reached', 'repo', 'merge', function (server) {
+
+            server.start(function() {
+
+                var bobber = new Bobber({apiUrl: server.info.uri});
+                var scm = {
+                    url: 'https://github.com/org/repo'
+                };
+                var state = 'pending';
+                var commit = 1;
+                var token = 1;
+                bobber.updateCommitStatus(scm, commit, state, token, function(result) {
+
+                    //console.log(result);
+                    expect(result.error).to.exist();
+                    server.stop();
+                    done();
+                });
+            });
+        });
+    });
+
+    it('mergePullRequest merge rate_limit', function (done) {
 
         internals.mockGithub('rate_limit', 'repo', 'merge', function (server) {
 
@@ -154,8 +252,56 @@ describe('pull requests', function () {
 
                     //console.log(result);
                     expect(result.sha.length).to.equal(40);
+                    expect(result.error).to.not.exist();
                     expect(result.merged).to.be.true();
                     expect(result.message).to.equal('Pull Request successfully merged');
+                    server.stop();
+                    done();
+                });
+            });
+        });
+    });
+
+    it('mergePullRequest mergefail rate_limit', function (done) {
+
+        internals.mockGithub('rate_limit', 'repo', 'mergefail', function (server) {
+
+            server.start(function() {
+
+                var bobber = new Bobber({apiUrl: server.info.uri});
+                var scm = {
+                    url: 'https://github.com/org/repo'
+                };
+                var token = 1;
+                var number = 14;
+                bobber.mergePullRequest(scm, number, token, function(result) {
+
+                    //console.log(result);
+                    expect(result.merged).to.be.false();
+                    expect(result.error).to.equal('Pull Request is not mergeable');
+                    server.stop();
+                    done();
+                });
+            });
+        });
+    });
+
+    it('mergePullRequest merge rate_limit_reached', function (done) {
+
+        internals.mockGithub('rate_limit_reached', 'repo', 'merge', function (server) {
+
+            server.start(function() {
+
+                var bobber = new Bobber({apiUrl: server.info.uri});
+                var scm = {
+                    url: 'https://github.com/org/repo'
+                };
+                var token = 1;
+                var number = 14;
+                bobber.mergePullRequest(scm, number, token, function(result) {
+
+                    //console.log(result);
+                    expect(result.error).to.exist();
                     server.stop();
                     done();
                 });
