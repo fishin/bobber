@@ -518,7 +518,7 @@ describe('pull requests', function () {
             {
                 method: 'get',
                 path: '/repos/org/invalid/pulls',
-                file: 'index.json'
+                file: 'notfound.json'
             },
             {
                 method: 'get',
