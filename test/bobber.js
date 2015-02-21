@@ -48,6 +48,13 @@ internals.mockGithub = function (rateLimit, repo, merge, callback) {
             handler: {
                 file: __dirname + '/fixtures/pulls_' + repo + '_14_' + merge + '.json'
             }
+        },
+        {
+            method: 'POST',
+            path: '/repos/org/' + repo + '/statuses/1',
+            handler: {
+                file: __dirname + '/fixtures/repo_statuses_1.json'
+            }
         }
     ]);
     callback(server);
@@ -201,6 +208,31 @@ describe('bobber', function () {
                     expect(pr.mergeCommit.length).to.equal(40);
                     expect(pr.shortCommit.length).to.equal(7);
                     expect(pr.repoUrl).to.equal('https://github.com/org/repo');
+                    server.stop();
+                    done();
+                });
+            });
+        });
+    });
+
+    it('updateCommitStatus', function (done) {
+
+        internals.mockGithub('rate_limit', 'repo', 'merge', function (server) {
+
+            server.start(function() {
+
+                var bobber = new Bobber({apiUrl: server.info.uri});
+                var scm = {
+                    url: 'https://github.com/org/repo'
+                };
+                var state = 'pending';
+                var commit = 1;
+                var token = 1;
+                bobber.updateCommitStatus(scm, commit, state, token, function(result) {
+
+                    //console.log(result);
+                    expect(result.state).to.equal('pending');
+                    expect(result.description).to.equal('pending');
                     server.stop();
                     done();
                 });
