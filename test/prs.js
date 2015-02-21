@@ -212,6 +212,42 @@ describe('pull requests', function () {
         });
     });
 
+    it('getPullRequest rate_limit token notfound', function (done) {
+
+        var type = 'github';
+        var routes = [
+            {
+                method: 'get',
+                path: '/repos/org/repo/pulls/1',
+                file: 'notfound.json'
+            },
+            {
+                method: 'get',
+                path: '/rate_limit',
+                file: 'authorized.json'
+            }
+        ];
+        Mock.prepareServer(type, routes, function(server) {
+
+            server.start(function() {
+
+                var bobber = new Bobber({apiUrl: server.info.uri});
+                var scm = {
+                    url: 'https://github.com/org/repo'
+                };
+                var token = 1;
+                var number = 1;
+                bobber.getPullRequest(scm, number, token, function(pr) {
+
+                    //console.log(pr);
+                    expect(pr).to.not.exist();
+                    server.stop();
+                    done();
+                });
+            });
+        });
+    });
+
     it('updateCommitStatus rate_limit', function (done) {
 
         var type = 'github';
@@ -287,6 +323,44 @@ describe('pull requests', function () {
         });
     });
 
+    it('updateCommitStatus notfound', function (done) {
+
+        var type = 'github';
+        var routes = [
+            {
+                method: 'post',
+                path: '/repos/org/repo/statuses/1',
+                file: 'notfound.json'
+            },
+            {
+                method: 'get',
+                path: '/rate_limit',
+                file: 'authorized.json'
+            }
+        ];
+        Mock.prepareServer(type, routes, function(server) {
+
+            server.start(function() {
+
+                var bobber = new Bobber({apiUrl: server.info.uri});
+                var scm = {
+                    url: 'https://github.com/org/repo'
+                };
+                var state = 'pending';
+                var commit = 1;
+                var token = 1;
+                bobber.updateCommitStatus(scm, commit, state, token, function(result) {
+
+                    //console.log(result);
+                    expect(result.error).to.exist();
+                    server.stop();
+                    done();
+                });
+            });
+        });
+    });
+
+
     it('mergePullRequest merge rate_limit', function (done) {
 
         var type = 'github';
@@ -325,6 +399,43 @@ describe('pull requests', function () {
             });
         });
     });
+/*
+    it('mergePullRequest merge rate_limit notfound', function (done) {
+
+        var type = 'github';
+        var routes = [
+            {
+                method: 'put',
+                path: '/repos/org/repo/pulls/1/merge',
+                file: 'notfound.json'
+            },
+            {
+                method: 'get',
+                path: '/rate_limit',
+                file: 'authorized.json'
+            }
+        ];
+        Mock.prepareServer(type, routes, function(server) {
+
+            server.start(function() {
+
+                var bobber = new Bobber({apiUrl: server.info.uri});
+                var scm = {
+                    url: 'https://github.com/org/repo'
+                };
+                var token = 1;
+                var number = 1;
+                bobber.mergePullRequest(scm, number, token, function(result) {
+
+                    console.log(result);
+                    expect(result.error).to.exist();
+                    server.stop();
+                    done();
+                });
+            });
+        });
+    });
+*/
 
     it('mergePullRequest mergefail rate_limit', function (done) {
 
