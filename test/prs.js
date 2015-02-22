@@ -37,7 +37,7 @@ describe('pull requests', function () {
             server.start(function() {
 
                 //console.log(server.info);
-                var bobber = new Bobber({apiUrl: server.info.uri});
+                var bobber = new Bobber({ github: { url: server.info.uri } });
                 var scm = {
                     url: 'https://anon:anon@github.com/org/repo'
                 };
@@ -77,7 +77,7 @@ describe('pull requests', function () {
             server.start(function() {
 
                 //console.log(server.info);
-                var bobber = new Bobber({apiUrl: server.info.uri});
+                var bobber = new Bobber({ github: { url: server.info.uri } });
                 var scm = {
                     url: 'https://anon:anon@github.com/org/repo'
                 };
@@ -117,7 +117,7 @@ describe('pull requests', function () {
 
             server.start(function() {
 
-                var bobber = new Bobber({apiUrl: server.info.uri});
+                var bobber = new Bobber({ github: { url: server.info.uri } });
                 var scm = {
                     url: 'https://github.com/org/repo'
                 };
@@ -156,7 +156,7 @@ describe('pull requests', function () {
 
             server.start(function() {
 
-                var bobber = new Bobber({apiUrl: server.info.uri});
+                var bobber = new Bobber({ github: { url: server.info.uri } });
                 var scm = {
                     url: 'https://github.com/org/repo'
                 };
@@ -191,7 +191,7 @@ describe('pull requests', function () {
 
             server.start(function() {
 
-                var bobber = new Bobber({apiUrl: server.info.uri});
+                var bobber = new Bobber({ github: { url: server.info.uri } });
                 var scm = {
                     url: 'https://github.com/org/repo'
                 };
@@ -231,7 +231,7 @@ describe('pull requests', function () {
 
             server.start(function() {
 
-                var bobber = new Bobber({apiUrl: server.info.uri});
+                var bobber = new Bobber({ github: { url: server.info.uri } });
                 var scm = {
                     url: 'https://github.com/org/repo'
                 };
@@ -267,7 +267,7 @@ describe('pull requests', function () {
 
             server.start(function() {
 
-                var bobber = new Bobber({apiUrl: server.info.uri});
+                var bobber = new Bobber({ github: { url: server.info.uri } });
                 var scm = {
                     url: 'https://github.com/org/repo'
                 };
@@ -305,7 +305,7 @@ describe('pull requests', function () {
 
             server.start(function() {
 
-                var bobber = new Bobber({apiUrl: server.info.uri});
+                var bobber = new Bobber({ github: { url: server.info.uri } });
                 var scm = {
                     url: 'https://github.com/org/repo'
                 };
@@ -342,7 +342,7 @@ describe('pull requests', function () {
 
             server.start(function() {
 
-                var bobber = new Bobber({apiUrl: server.info.uri});
+                var bobber = new Bobber({ github: { url: server.info.uri } });
                 var scm = {
                     url: 'https://github.com/org/repo'
                 };
@@ -379,7 +379,7 @@ describe('pull requests', function () {
 
             server.start(function() {
 
-                var bobber = new Bobber({apiUrl: server.info.uri});
+                var bobber = new Bobber({ github: { url: server.info.uri } });
                 var scm = {
                     url: 'https://github.com/org/repo'
                 };
@@ -418,7 +418,7 @@ describe('pull requests', function () {
 
             server.start(function() {
 
-                var bobber = new Bobber({apiUrl: server.info.uri});
+                var bobber = new Bobber({ github: { url: server.info.uri } });
                 var scm = {
                     url: 'https://github.com/org/repo'
                 };
@@ -454,7 +454,7 @@ describe('pull requests', function () {
 
             server.start(function() {
 
-                var bobber = new Bobber({apiUrl: server.info.uri});
+                var bobber = new Bobber({ github: { url: server.info.uri } });
                 var scm = {
                     url: 'https://github.com/org/repo'
                 };
@@ -491,7 +491,7 @@ describe('pull requests', function () {
 
             server.start(function() {
 
-                var bobber = new Bobber({apiUrl: server.info.uri});
+                var bobber = new Bobber({ github: { url: server.info.uri } });
                 var scm = {
                     url: 'https://github.com/org/repo'
                 };
@@ -527,7 +527,7 @@ describe('pull requests', function () {
 
             server.start(function() {
 
-                var bobber = new Bobber({apiUrl: server.info.uri});
+                var bobber = new Bobber({ github: { url: server.info.uri } });
                 var scm = {
                     url: 'https://github.com/org/repo'
                 };
@@ -566,7 +566,7 @@ describe('pull requests', function () {
 
             server.start(function() {
 
-                var bobber = new Bobber({apiUrl: server.info.uri});
+                var bobber = new Bobber({ github: { url: server.info.uri } });
                 var scm = {
                     url: 'git@github.com/org/repo'
                 };
@@ -605,7 +605,7 @@ describe('pull requests', function () {
 
             server.start(function() {
 
-                var bobber = new Bobber({apiUrl: server.info.uri});
+                var bobber = new Bobber({ github: { url: server.info.uri } });
                 var scm = {
                     url: 'https://anon:anon@github.com/org/repo'
                 };
@@ -639,7 +639,7 @@ describe('pull requests', function () {
 
             server.start(function() {
 
-                var bobber = new Bobber({apiUrl: server.info.uri});
+                var bobber = new Bobber({ github: { url: server.info.uri } });
                 var scm = {
                     url: 'https://anon:anon@github.com/org/invalid'
                 };
