@@ -1,7 +1,0 @@
-{
-  "state": "pending",
-  "target_url": "https://ci.example.com/1000/output",
-  "description": "pending",
-  "id": 1,
-  "context": "continuous-integration/ficion"
-}
