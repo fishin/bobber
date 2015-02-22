@@ -180,4 +180,16 @@ describe('bobber', function () {
         expect(bobber.validateUrl(scm)).to.be.false();
         done();
     });
+
+    it('validateUrl mock', function (done) {
+
+        var bobber = new Bobber({ mock: true });
+        var scm = {
+            type: 'github',
+            branch: 'master',
+            url: 'https://github.com/fishin/invalid'
+        };
+        expect(bobber.validateUrl(scm)).to.be.true();
+        done();
+    });
 });
