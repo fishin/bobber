@@ -29,6 +29,7 @@ describe('bobber', function () {
             url: 'https://github.com/fishin/bobber'
         };
         var bobber = new Bobber({});
+        //var result = bobber.checkoutCode(bobberPath + '/' + config.id + '/workspace', scm, null);
         var result = bobber.checkoutCode(bobberPath + '/' + config.id + '/workspace', scm);
         expect(result.startTime).to.exist();
         expect(result.finishTime).to.exist();
@@ -49,6 +50,7 @@ describe('bobber', function () {
         var pail = new Pail({dirPath: bobberPath});
         var pails = pail.getPails();
         var config = pail.getPail(pails[0]);
+        //var result = bobber.checkoutCode(bobberPath + '/' + config.id + '/workspace', scm, null);
         var result = bobber.checkoutCode(bobberPath + '/' + config.id + '/workspace', scm);
         expect(result.startTime).to.exist();
         expect(result.finishTime).to.exist();
