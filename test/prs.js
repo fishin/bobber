@@ -50,7 +50,7 @@ describe('pull requests', function () {
                     expect(prs[0].mergeCommit.length).to.equal(40);
                     expect(prs[0].shortCommit.length).to.equal(7);
                     expect(prs[0].repoUrl).to.equal('https://anon:anon@github.com/org/repo');
-                    server.stop;
+                    server.stop();
                     done();
                 });
             });
@@ -91,7 +91,7 @@ describe('pull requests', function () {
                     expect(prs[0].mergeCommit.length).to.equal(40);
                     expect(prs[0].shortCommit.length).to.equal(7);
                     expect(prs[0].repoUrl).to.equal('https://anon:anon@github.com/org/repo');
-                    server.stop;
+                    server.stop();
                     done();
                 });
             });
