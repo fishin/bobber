@@ -30,7 +30,6 @@ describe('bobber', function () {
         };
         var bobber = new Bobber({});
         var result = bobber.checkoutCode(bobberPath + '/' + config.id + '/workspace', scm, null);
-        //var result = bobber.checkoutCode(bobberPath + '/' + config.id + '/workspace', scm);
         expect(result.startTime).to.exist();
         expect(result.finishTime).to.exist();
         expect(result.commands[0].command).to.include('git clone');
@@ -51,7 +50,6 @@ describe('bobber', function () {
         var pails = pail.getPails();
         var config = pail.getPail(pails[0]);
         var result = bobber.checkoutCode(bobberPath + '/' + config.id + '/workspace', scm, null);
-        //var result = bobber.checkoutCode(bobberPath + '/' + config.id + '/workspace', scm);
         expect(result.startTime).to.exist();
         expect(result.finishTime).to.exist();
         expect(result.commands[0].stderr).to.include('fishin/bobber');
@@ -63,8 +61,6 @@ describe('bobber', function () {
         Fs.rmdirSync(bobberPath);
         done();
     });
-
-/*
 
     it('checkoutCode mergeCommit merge', function (done) {
 
@@ -79,51 +75,27 @@ describe('bobber', function () {
         var bobber = new Bobber({});
         bobber.getPullRequests(scm, null, function(prs) {
 
-            console.log(prs);
+            //console.log(prs);
             expect(prs.length).to.be.above(0);
             expect(prs[0].number).to.be.above(0);
             expect(prs[0].commit.length).to.equal(40);
             expect(prs[0].mergeCommit.length).to.equal(40);
             expect(prs[0].shortCommit.length).to.equal(7);
             expect(prs[0].repoUrl).to.equal('https://github.com/fishin/demo');
-            var result = bobber.checkoutCode(bobberPath + '/' + config.id + '/workspace', scm, prs[0].commit);
-            console.log(result);
+            var result = bobber.checkoutCode(bobberPath + '/' + config.id + '/workspace', scm, prs[0]);
+            //console.log(result);
             expect(result.startTime).to.exist();
             expect(result.finishTime).to.exist();
-            expect(result.commands[0].command).to.include('git clone');
-            expect(result.commands[0].stderr).to.include('Cloning into');
+            expect(result.commands.length).to.equal(3);
+            expect(result.commands[2].command).to.include('git pull');
+            expect(result.commands[2].stdout).to.include('Updating');
             expect(result.status).to.equal('succeeded');
             var commit = bobber.getLatestCommit(bobberPath + '/' + config.id + '/workspace');
-            console.log(commit);
+            expect(commit).to.equal(prs[0].commit);
             pail.deletePail(config.id);
             Fs.rmdirSync(bobberPath);
             done();
         });
-    });
-
-*/
-    it('checkoutCode mergeCommit merge fail', function (done) {
-
-        var pail = new Pail({dirPath: bobberPath});
-        var config = pail.createPail({name: 'checkoutCode'});
-        pail.createDir(config.id + '/workspace');
-        var scm = {
-            type: 'github',
-            branch: 'master',
-            url: 'https://github.com/fishin/demo'
-        };
-        var bobber = new Bobber({});
-        var result = bobber.checkoutCode(bobberPath + '/' + config.id + '/workspace', scm, '1' );
-        //var result = bobber.checkoutCode(bobberPath + '/' + config.id + '/workspace', scm);
-        //console.log(result);
-        expect(result.startTime).to.exist();
-        expect(result.finishTime).to.exist();
-        expect(result.commands[0].command).to.include('git clone');
-        expect(result.commands[0].stderr).to.include('Cloning into');
-        expect(result.status).to.equal('failed');
-        pail.deletePail(config.id);
-        Fs.rmdirSync(bobberPath);
-        done();
     });
 
     it('checkoutCode mergeCommit git clone fail', function (done) {
@@ -137,7 +109,7 @@ describe('bobber', function () {
             url: 'https://anon@anon:github.com/fishin/invalid'
         };
         var bobber = new Bobber({});
-        var result = bobber.checkoutCode(bobberPath + '/' + config.id + '/workspace', scm, '1' );
+        var result = bobber.checkoutCode(bobberPath + '/' + config.id + '/workspace', scm, {});
         //var result = bobber.checkoutCode(bobberPath + '/' + config.id + '/workspace', scm);
         //console.log(result);
         expect(result.startTime).to.exist();
