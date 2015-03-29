@@ -88,8 +88,6 @@ describe('bobber', function () {
             expect(result.finishTime).to.exist();
             expect(result.commands.length).to.equal(3);
             expect(result.commands[2].command).to.include('git pull');
-            //console.log(result.commands[2].stdout);
-            expect(result.commands[2].stdout).to.include('Merge');
             expect(result.status).to.equal('succeeded');
             var commit = bobber.getLatestCommit(bobberPath + '/' + config.id + '/workspace');
             // different commit number after merge not sure why it worked before
