@@ -83,7 +83,7 @@ describe('bobber', function () {
             expect(prs[0].shortCommit.length).to.equal(7);
             expect(prs[0].repoUrl).to.equal('https://github.com/fishin/demo');
             var result = bobber.checkoutCode(bobberPath + '/' + config.id + '/workspace', scm, prs[0]);
-            console.log(result);
+            //console.log(result);
             expect(result.startTime).to.exist();
             expect(result.finishTime).to.exist();
             expect(result.commands.length).to.equal(3);
