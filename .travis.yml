@@ -2,3 +2,6 @@ language: node_js
 
 node_js:
   - iojs
+before_script:
+  - git config --global user.email "lloyd.benson@gmail.com"
+  - git config --global user.name "Travis-CI"
