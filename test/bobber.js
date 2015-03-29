@@ -32,8 +32,8 @@ describe('bobber', function () {
         var result = bobber.checkoutCode(bobberPath + '/' + config.id + '/workspace', scm, null);
         expect(result.startTime).to.exist();
         expect(result.finishTime).to.exist();
-        expect(result.commands[2].command).to.include('git clone');
-        expect(result.commands[2].stderr).to.include('Cloning into');
+        expect(result.commands[0].command).to.include('git clone');
+        expect(result.commands[0].stderr).to.include('Cloning into');
         expect(result.status).to.equal('succeeded');
         done();
     });
@@ -52,9 +52,9 @@ describe('bobber', function () {
         var result = bobber.checkoutCode(bobberPath + '/' + config.id + '/workspace', scm, null);
         expect(result.startTime).to.exist();
         expect(result.finishTime).to.exist();
-        expect(result.commands[2].stderr).to.include('fishin/bobber');
-        expect(result.commands[2].stdout).to.include('Already up-to-date.');
-        expect(result.commands[2].command).to.include('git pull origin master');
+        expect(result.commands[0].stderr).to.include('fishin/bobber');
+        expect(result.commands[0].stdout).to.include('Already up-to-date.');
+        expect(result.commands[0].command).to.include('git pull origin master');
         expect(result.status).to.equal('succeeded');
         // cleanup
         pail.deletePail(config.id);
@@ -86,8 +86,8 @@ describe('bobber', function () {
             console.log(result);
             expect(result.startTime).to.exist();
             expect(result.finishTime).to.exist();
-            expect(result.commands.length).to.equal(5);
-            expect(result.commands[4].command).to.include('git pull');
+            expect(result.commands.length).to.equal(3);
+            expect(result.commands[2].command).to.include('git pull');
             expect(result.status).to.equal('succeeded');
             var commit = bobber.getLatestCommit(bobberPath + '/' + config.id + '/workspace');
             // different commit number after merge not sure why it worked before
@@ -114,8 +114,8 @@ describe('bobber', function () {
         //console.log(result);
         expect(result.startTime).to.exist();
         expect(result.finishTime).to.exist();
-        expect(result.commands[2].command).to.include('git clone');
-        expect(result.commands[2].stderr).to.include('fatal:');
+        expect(result.commands[0].command).to.include('git clone');
+        expect(result.commands[0].stderr).to.include('fatal:');
         expect(result.status).to.equal('failed');
         var commit = bobber.getLatestCommit(bobberPath + '/' + config.id + '/workspace');
         pail.deletePail(config.id);
