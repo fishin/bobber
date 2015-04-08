@@ -17,8 +17,8 @@
     "node": ">=0.12.x"
   },
   "scripts": {
-    "test": "lab -a code -t 100 -v -m 10000",
-    "json": "lab -a code -r json -t 100 -o lab.json -m 10000"
+    "test": "lab -a code -t 100 -v -m 10000 -L",
+    "json": "lab -a code -r json -t 100 -o lab.json -m 10000 -L"
   },
   "dependencies": {
     "hoek": "2.x.x",
