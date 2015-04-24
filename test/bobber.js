@@ -73,7 +73,7 @@ describe('bobber', function () {
             url: 'https://github.com/fishin/demo'
         };
         var bobber = new Bobber({});
-        bobber.getPullRequests(scm, null, function(prs) {
+        bobber.getPullRequests(scm, null, function (prs) {
 
             //console.log(prs);
             expect(prs.length).to.be.above(0);

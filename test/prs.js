@@ -32,16 +32,16 @@ describe('pull requests', function () {
                 file: 'anonymous.json'
             }
         ];
-        Mock.prepareServer(type, routes, function(server) {
+        Mock.prepareServer(type, routes, function (server) {
 
-            server.start(function() {
+            server.start(function () {
 
                 //console.log(server.info);
                 var bobber = new Bobber({ github: { url: server.info.uri } });
                 var scm = {
                     url: 'https://anon:anon@github.com/org/repo'
                 };
-                bobber.getPullRequests(scm, null, function(prs) {
+                bobber.getPullRequests(scm, null, function (prs) {
 
                     //console.log(prs);
                     expect(prs.length).to.be.above(0);
@@ -72,9 +72,9 @@ describe('pull requests', function () {
                 file: 'authorized.json'
             }
         ];
-        Mock.prepareServer(type, routes, function(server) {
+        Mock.prepareServer(type, routes, function (server) {
 
-            server.start(function() {
+            server.start(function () {
 
                 //console.log(server.info);
                 var bobber = new Bobber({ github: { url: server.info.uri } });
@@ -82,7 +82,7 @@ describe('pull requests', function () {
                     url: 'https://anon:anon@github.com/org/repo'
                 };
                 var token = 1;
-                bobber.getPullRequests(scm, token, function(prs) {
+                bobber.getPullRequests(scm, token, function (prs) {
 
                     //console.log(prs);
                     expect(prs.length).to.be.above(0);
@@ -113,16 +113,16 @@ describe('pull requests', function () {
                 file: 'anonymous.json'
             }
         ];
-        Mock.prepareServer(type, routes, function(server) {
+        Mock.prepareServer(type, routes, function (server) {
 
-            server.start(function() {
+            server.start(function () {
 
                 var bobber = new Bobber({ github: { url: server.info.uri } });
                 var scm = {
                     url: 'https://github.com/org/repo'
                 };
                 var number = 1;
-                bobber.getPullRequest(scm, number, null, function(pr) {
+                bobber.getPullRequest(scm, number, null, function (pr) {
 
                     //console.log(pr);
                     expect(pr.number).to.be.above(0);
@@ -152,16 +152,16 @@ describe('pull requests', function () {
                 file: 'reached.json'
             }
         ];
-        Mock.prepareServer(type, routes, function(server) {
+        Mock.prepareServer(type, routes, function (server) {
 
-            server.start(function() {
+            server.start(function () {
 
                 var bobber = new Bobber({ github: { url: server.info.uri } });
                 var scm = {
                     url: 'https://github.com/org/repo'
                 };
                 var number = 1;
-                bobber.getPullRequest(scm, number, null, function(pr) {
+                bobber.getPullRequest(scm, number, null, function (pr) {
 
                     //console.log(pr);
                     expect(pr).to.not.exist();
@@ -187,9 +187,9 @@ describe('pull requests', function () {
                 file: 'authorized.json'
             }
         ];
-        Mock.prepareServer(type, routes, function(server) {
+        Mock.prepareServer(type, routes, function (server) {
 
-            server.start(function() {
+            server.start(function () {
 
                 var bobber = new Bobber({ github: { url: server.info.uri } });
                 var scm = {
@@ -197,7 +197,7 @@ describe('pull requests', function () {
                 };
                 var token = 1;
                 var number = 1;
-                bobber.getPullRequest(scm, number, token, function(pr) {
+                bobber.getPullRequest(scm, number, token, function (pr) {
 
                     //console.log(pr);
                     expect(pr.number).to.be.above(0);
@@ -227,9 +227,9 @@ describe('pull requests', function () {
                 file: 'authorized.json'
             }
         ];
-        Mock.prepareServer(type, routes, function(server) {
+        Mock.prepareServer(type, routes, function (server) {
 
-            server.start(function() {
+            server.start(function () {
 
                 var bobber = new Bobber({ github: { url: server.info.uri } });
                 var scm = {
@@ -237,7 +237,7 @@ describe('pull requests', function () {
                 };
                 var token = 1;
                 var number = 1;
-                bobber.getPullRequest(scm, number, token, function(pr) {
+                bobber.getPullRequest(scm, number, token, function (pr) {
 
                     //console.log(pr);
                     expect(pr).to.not.exist();
@@ -263,9 +263,9 @@ describe('pull requests', function () {
                 file: 'authorized.json'
             }
         ];
-        Mock.prepareServer(type, routes, function(server) {
+        Mock.prepareServer(type, routes, function (server) {
 
-            server.start(function() {
+            server.start(function () {
 
                 var bobber = new Bobber({ github: { url: server.info.uri } });
                 var scm = {
@@ -274,7 +274,7 @@ describe('pull requests', function () {
                 var state = 'pending';
                 var commit = 1;
                 var token = 1;
-                bobber.updateCommitStatus(scm, commit, state, token, function(result) {
+                bobber.updateCommitStatus(scm, commit, state, token, function (result) {
 
                     //console.log(result);
                     expect(result.state).to.equal('pending');
@@ -301,9 +301,9 @@ describe('pull requests', function () {
                 file: 'reached.json'
             }
         ];
-        Mock.prepareServer(type, routes, function(server) {
+        Mock.prepareServer(type, routes, function (server) {
 
-            server.start(function() {
+            server.start(function () {
 
                 var bobber = new Bobber({ github: { url: server.info.uri } });
                 var scm = {
@@ -312,7 +312,7 @@ describe('pull requests', function () {
                 var state = 'pending';
                 var commit = 1;
                 var token = 1;
-                bobber.updateCommitStatus(scm, commit, state, token, function(result) {
+                bobber.updateCommitStatus(scm, commit, state, token, function (result) {
 
                     //console.log(result);
                     expect(result.error).to.exist();
@@ -338,9 +338,9 @@ describe('pull requests', function () {
                 file: 'authorized.json'
             }
         ];
-        Mock.prepareServer(type, routes, function(server) {
+        Mock.prepareServer(type, routes, function (server) {
 
-            server.start(function() {
+            server.start(function () {
 
                 var bobber = new Bobber({ github: { url: server.info.uri } });
                 var scm = {
@@ -349,7 +349,7 @@ describe('pull requests', function () {
                 var state = 'pending';
                 var commit = 1;
                 var token = 1;
-                bobber.updateCommitStatus(scm, commit, state, token, function(result) {
+                bobber.updateCommitStatus(scm, commit, state, token, function (result) {
 
                     //console.log(result);
                     expect(result.error).to.exist();
@@ -375,9 +375,9 @@ describe('pull requests', function () {
                 file: 'authorized.json'
             }
         ];
-        Mock.prepareServer(type, routes, function(server) {
+        Mock.prepareServer(type, routes, function (server) {
 
-            server.start(function() {
+            server.start(function () {
 
                 var bobber = new Bobber({ github: { url: server.info.uri } });
                 var scm = {
@@ -385,7 +385,7 @@ describe('pull requests', function () {
                 };
                 var token = 1;
                 var number = 1;
-                bobber.mergePullRequest(scm, number, token, function(result) {
+                bobber.mergePullRequest(scm, number, token, function (result) {
 
                     //console.log(result);
                     expect(result.sha.length).to.equal(40);
@@ -414,9 +414,9 @@ describe('pull requests', function () {
                 file: 'authorized.json'
             }
         ];
-        Mock.prepareServer(type, routes, function(server) {
+        Mock.prepareServer(type, routes, function (server) {
 
-            server.start(function() {
+            server.start(function () {
 
                 var bobber = new Bobber({ github: { url: server.info.uri } });
                 var scm = {
@@ -424,7 +424,7 @@ describe('pull requests', function () {
                 };
                 var token = 1;
                 var number = 1;
-                bobber.mergePullRequest(scm, number, token, function(result) {
+                bobber.mergePullRequest(scm, number, token, function (result) {
 
                     //console.log(result);
                     expect(result.error).to.exist();
@@ -450,9 +450,9 @@ describe('pull requests', function () {
                 file: 'authorized.json'
             }
         ];
-        Mock.prepareServer(type, routes, function(server) {
+        Mock.prepareServer(type, routes, function (server) {
 
-            server.start(function() {
+            server.start(function () {
 
                 var bobber = new Bobber({ github: { url: server.info.uri } });
                 var scm = {
@@ -460,7 +460,7 @@ describe('pull requests', function () {
                 };
                 var token = 1;
                 var number = 1;
-                bobber.mergePullRequest(scm, number, token, function(result) {
+                bobber.mergePullRequest(scm, number, token, function (result) {
 
                     //console.log(result);
                     expect(result.merged).to.be.false();
@@ -487,9 +487,9 @@ describe('pull requests', function () {
                 file: 'reached.json'
             }
         ];
-        Mock.prepareServer(type, routes, function(server) {
+        Mock.prepareServer(type, routes, function (server) {
 
-            server.start(function() {
+            server.start(function () {
 
                 var bobber = new Bobber({ github: { url: server.info.uri } });
                 var scm = {
@@ -497,7 +497,7 @@ describe('pull requests', function () {
                 };
                 var token = 1;
                 var number = 1;
-                bobber.mergePullRequest(scm, number, token, function(result) {
+                bobber.mergePullRequest(scm, number, token, function (result) {
 
                     //console.log(result);
                     expect(result.error).to.exist();
@@ -523,15 +523,15 @@ describe('pull requests', function () {
                 file: 'anonymous.json'
             }
         ];
-        Mock.prepareServer(type, routes, function(server) {
+        Mock.prepareServer(type, routes, function (server) {
 
-            server.start(function() {
+            server.start(function () {
 
                 var bobber = new Bobber({ github: { url: server.info.uri } });
                 var scm = {
                     url: 'https://github.com/org/repo'
                 };
-                bobber.getPullRequests(scm, null, function(prs) {
+                bobber.getPullRequests(scm, null, function (prs) {
 
                     //console.log(prs);
                     expect(prs.length).to.be.above(0);
@@ -562,15 +562,15 @@ describe('pull requests', function () {
                 file: 'anonymous.json'
             }
         ];
-        Mock.prepareServer(type, routes, function(server) {
+        Mock.prepareServer(type, routes, function (server) {
 
-            server.start(function() {
+            server.start(function () {
 
                 var bobber = new Bobber({ github: { url: server.info.uri } });
                 var scm = {
                     url: 'git@github.com/org/repo'
                 };
-                bobber.getPullRequests(scm, null, function(prs) {
+                bobber.getPullRequests(scm, null, function (prs) {
 
                     //console.log(prs);
                     expect(prs.length).to.be.above(0);
@@ -601,15 +601,15 @@ describe('pull requests', function () {
                 file: 'reached.json'
             }
         ];
-        Mock.prepareServer(type, routes, function(server) {
+        Mock.prepareServer(type, routes, function (server) {
 
-            server.start(function() {
+            server.start(function () {
 
                 var bobber = new Bobber({ github: { url: server.info.uri } });
                 var scm = {
                     url: 'https://anon:anon@github.com/org/repo'
                 };
-                bobber.getPullRequests(scm, null, function(prs) {
+                bobber.getPullRequests(scm, null, function (prs) {
 
                     //console.log(prs);
                     expect(prs.length).to.equal(0);
@@ -635,15 +635,15 @@ describe('pull requests', function () {
                 file: 'anonymous.json'
             }
         ];
-        Mock.prepareServer(type, routes, function(server) {
+        Mock.prepareServer(type, routes, function (server) {
 
-            server.start(function() {
+            server.start(function () {
 
                 var bobber = new Bobber({ github: { url: server.info.uri } });
                 var scm = {
                     url: 'https://anon:anon@github.com/org/invalid'
                 };
-                bobber.getPullRequests(scm, null, function(prs) {
+                bobber.getPullRequests(scm, null, function (prs) {
 
                     //console.log(prs);
                     expect(prs.length).to.equal(0);
