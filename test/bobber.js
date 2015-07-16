@@ -20,8 +20,8 @@ describe('bobber', function () {
 
     it('checkoutCode new', function (done) {
 
-        var pail = new Pail({dirPath: bobberPath});
-        var config = pail.createPail({name: 'checkoutCode'});
+        var pail = new Pail({ dirPath: bobberPath });
+        var config = pail.createPail({ name: 'checkoutCode' });
         pail.createDir(config.id + '/workspace');
         var scm = {
             type: 'github',
@@ -46,7 +46,7 @@ describe('bobber', function () {
             url: 'git@github.com:fishin/bobber'
         };
         var bobber = new Bobber({});
-        var pail = new Pail({dirPath: bobberPath});
+        var pail = new Pail({ dirPath: bobberPath });
         var pails = pail.getPails();
         var config = pail.getPail(pails[0]);
         var result = bobber.checkoutCode(bobberPath + '/' + config.id + '/workspace', scm, null);
@@ -64,8 +64,8 @@ describe('bobber', function () {
 
     it('checkoutCode mergeCommit merge', function (done) {
 
-        var pail = new Pail({dirPath: bobberPath});
-        var config = pail.createPail({name: 'checkoutCode'});
+        var pail = new Pail({ dirPath: bobberPath });
+        var config = pail.createPail({ name: 'checkoutCode' });
         pail.createDir(config.id + '/workspace');
         var scm = {
             type: 'github',
@@ -100,8 +100,8 @@ describe('bobber', function () {
 
     it('checkoutCode mergeCommit git clone fail', function (done) {
 
-        var pail = new Pail({dirPath: bobberPath});
-        var config = pail.createPail({name: 'checkoutCode'});
+        var pail = new Pail({ dirPath: bobberPath });
+        var config = pail.createPail({ name: 'checkoutCode' });
         pail.createDir(config.id + '/workspace');
         var scm = {
             type: 'github',
