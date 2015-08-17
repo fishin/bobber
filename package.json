@@ -17,8 +17,9 @@
     "node": ">=0.12.x"
   },
   "scripts": {
-    "test": "lab -a code -t 100 -v -m 10000 -L -r json -o lab.json -r html -o lab.html -r console -o stdout -r console -o console.log",
-    "console": "lab -a code -t 100 -v -m 10000 -L"
+    "clean": "rm -rf node_modules",
+    "console": "lab -a code -t 100 -v -m 10000 -L",
+    "test": "lab -a code -t 100 -v -m 10000 -L -r json -o lab.json -r html -o lab.html -r console -o stdout -r console -o console.log"
   },
   "dependencies": {
     "hoek": "2.x.x",
