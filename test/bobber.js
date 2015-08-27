@@ -18,10 +18,10 @@ var bobberPath = __dirname + '/tmp';
 
 describe('bobber', function () {
 
-    it('checkoutCode new', function (done) {
+    it('checkoutCodeSync new', function (done) {
 
         var pail = new Pail({ dirPath: bobberPath });
-        var config = pail.createPail({ name: 'checkoutCode' });
+        var config = pail.createPail({ name: 'checkoutCodeSync' });
         pail.createDir(config.id + '/workspace');
         var scm = {
             type: 'github',
@@ -29,7 +29,7 @@ describe('bobber', function () {
             url: 'https://github.com/fishin/bobber'
         };
         var bobber = new Bobber({});
-        var result = bobber.checkoutCode(bobberPath + '/' + config.id + '/workspace', scm, null);
+        var result = bobber.checkoutCodeSync(bobberPath + '/' + config.id + '/workspace', scm, null);
         expect(result.startTime).to.exist();
         expect(result.finishTime).to.exist();
         expect(result.commands[0].command).to.include('git clone');
@@ -38,7 +38,7 @@ describe('bobber', function () {
         done();
     });
 
-    it('checkoutCode existing', function (done) {
+    it('checkoutCodeSync existing', function (done) {
 
         var scm = {
             type: 'github',
@@ -49,7 +49,7 @@ describe('bobber', function () {
         var pail = new Pail({ dirPath: bobberPath });
         var pails = pail.getPails();
         var config = pail.getPail(pails[0]);
-        var result = bobber.checkoutCode(bobberPath + '/' + config.id + '/workspace', scm, null);
+        var result = bobber.checkoutCodeSync(bobberPath + '/' + config.id + '/workspace', scm, null);
         expect(result.startTime).to.exist();
         expect(result.finishTime).to.exist();
         expect(result.commands[0].stderr).to.include('fishin/bobber');
@@ -62,10 +62,10 @@ describe('bobber', function () {
         done();
     });
 
-    it('checkoutCode mergeCommit merge', function (done) {
+    it('checkoutCodeSync mergeCommit merge', function (done) {
 
         var pail = new Pail({ dirPath: bobberPath });
-        var config = pail.createPail({ name: 'checkoutCode' });
+        var config = pail.createPail({ name: 'checkoutCodeSync' });
         pail.createDir(config.id + '/workspace');
         var scm = {
             type: 'github',
@@ -82,7 +82,7 @@ describe('bobber', function () {
             expect(prs[0].mergeCommit.length).to.equal(40);
             expect(prs[0].shortCommit.length).to.equal(7);
             expect(prs[0].repoUrl).to.equal('https://github.com/fishin/demo');
-            var result = bobber.checkoutCode(bobberPath + '/' + config.id + '/workspace', scm, prs[0]);
+            var result = bobber.checkoutCodeSync(bobberPath + '/' + config.id + '/workspace', scm, prs[0]);
             //console.log(result);
             expect(result.startTime).to.exist();
             expect(result.finishTime).to.exist();
@@ -98,10 +98,10 @@ describe('bobber', function () {
         });
     });
 
-    it('checkoutCode mergeCommit git clone fail', function (done) {
+    it('checkoutCodeSync mergeCommit git clone fail', function (done) {
 
         var pail = new Pail({ dirPath: bobberPath });
-        var config = pail.createPail({ name: 'checkoutCode' });
+        var config = pail.createPail({ name: 'checkoutCodeSync' });
         pail.createDir(config.id + '/workspace');
         var scm = {
             type: 'github',
@@ -109,8 +109,8 @@ describe('bobber', function () {
             url: 'https://anon@anon:github.com/fishin/invalid'
         };
         var bobber = new Bobber({});
-        var result = bobber.checkoutCode(bobberPath + '/' + config.id + '/workspace', scm, {});
-        //var result = bobber.checkoutCode(bobberPath + '/' + config.id + '/workspace', scm);
+        var result = bobber.checkoutCodeSync(bobberPath + '/' + config.id + '/workspace', scm, {});
+        //var result = bobber.checkoutCodeSync(bobberPath + '/' + config.id + '/workspace', scm);
         //console.log(result);
         expect(result.startTime).to.exist();
         expect(result.finishTime).to.exist();
