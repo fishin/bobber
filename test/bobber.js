@@ -18,6 +18,7 @@ var bobberPath = __dirname + '/tmp';
 
 describe('bobber', function () {
 
+/*
     it('checkoutCodeSync new', function (done) {
 
         var pail = new Pail({ dirPath: bobberPath });
@@ -61,6 +62,68 @@ describe('bobber', function () {
         Fs.rmdirSync(bobberPath);
         done();
     });
+
+    it('checkoutCodeSync mergeCommit merge', function (done) {
+
+        var pail = new Pail({ dirPath: bobberPath });
+        var config = pail.createPail({ name: 'checkoutCodeSync' });
+        pail.createDir(config.id + '/workspace');
+        var scm = {
+            type: 'github',
+            branch: 'master',
+            url: 'https://github.com/fishin/demo'
+        };
+        var bobber = new Bobber({});
+        bobber.getPullRequests(scm, null, function (prs) {
+
+            //console.log(prs);
+            expect(prs.length).to.be.above(0);
+            expect(prs[0].number).to.be.above(0);
+            expect(prs[0].commit.length).to.equal(40);
+            expect(prs[0].mergeCommit.length).to.equal(40);
+            expect(prs[0].shortCommit.length).to.equal(7);
+            expect(prs[0].repoUrl).to.equal('https://github.com/fishin/demo');
+            var result = bobber.checkoutCodeSync(bobberPath + '/' + config.id + '/workspace', scm, prs[0]);
+            //console.log(result);
+            expect(result.startTime).to.exist();
+            expect(result.finishTime).to.exist();
+            expect(result.commands.length).to.equal(3);
+            expect(result.commands[2].command).to.include('git pull');
+            expect(result.status).to.equal('succeeded');
+            var commit = bobber.getLatestCommit(bobberPath + '/' + config.id + '/workspace');
+            // different commit number after merge not sure why it worked before
+            //expect(commit).to.equal(prs[0].commit);
+            pail.deletePail(config.id);
+            Fs.rmdirSync(bobberPath);
+            done();
+        });
+    });
+
+    it('checkoutCodeSync mergeCommit git clone fail', function (done) {
+
+        var pail = new Pail({ dirPath: bobberPath });
+        var config = pail.createPail({ name: 'checkoutCodeSync' });
+        pail.createDir(config.id + '/workspace');
+        var scm = {
+            type: 'github',
+            branch: 'master',
+            url: 'https://anon@anon:github.com/fishin/invalid'
+        };
+        var bobber = new Bobber({});
+        var result = bobber.checkoutCodeSync(bobberPath + '/' + config.id + '/workspace', scm, {});
+        //var result = bobber.checkoutCodeSync(bobberPath + '/' + config.id + '/workspace', scm);
+        //console.log(result);
+        expect(result.startTime).to.exist();
+        expect(result.finishTime).to.exist();
+        expect(result.commands[0].command).to.include('git clone');
+        expect(result.commands[0].stderr).to.include('fatal:');
+        expect(result.status).to.equal('failed');
+        var commit = bobber.getLatestCommit(bobberPath + '/' + config.id + '/workspace');
+        pail.deletePail(config.id);
+        Fs.rmdirSync(bobberPath);
+        done();
+    });
+*/
 
     it('checkoutCode new', function (done) {
 
@@ -122,42 +185,6 @@ describe('bobber', function () {
         });
     });
 
-    it('checkoutCodeSync mergeCommit merge', function (done) {
-
-        var pail = new Pail({ dirPath: bobberPath });
-        var config = pail.createPail({ name: 'checkoutCodeSync' });
-        pail.createDir(config.id + '/workspace');
-        var scm = {
-            type: 'github',
-            branch: 'master',
-            url: 'https://github.com/fishin/demo'
-        };
-        var bobber = new Bobber({});
-        bobber.getPullRequests(scm, null, function (prs) {
-
-            //console.log(prs);
-            expect(prs.length).to.be.above(0);
-            expect(prs[0].number).to.be.above(0);
-            expect(prs[0].commit.length).to.equal(40);
-            expect(prs[0].mergeCommit.length).to.equal(40);
-            expect(prs[0].shortCommit.length).to.equal(7);
-            expect(prs[0].repoUrl).to.equal('https://github.com/fishin/demo');
-            var result = bobber.checkoutCodeSync(bobberPath + '/' + config.id + '/workspace', scm, prs[0]);
-            //console.log(result);
-            expect(result.startTime).to.exist();
-            expect(result.finishTime).to.exist();
-            expect(result.commands.length).to.equal(3);
-            expect(result.commands[2].command).to.include('git pull');
-            expect(result.status).to.equal('succeeded');
-            var commit = bobber.getLatestCommit(bobberPath + '/' + config.id + '/workspace');
-            // different commit number after merge not sure why it worked before
-            //expect(commit).to.equal(prs[0].commit);
-            pail.deletePail(config.id);
-            Fs.rmdirSync(bobberPath);
-            done();
-        });
-    });
-
     it('checkoutCode mergeCommit merge', function (done) {
 
         var pail = new Pail({ dirPath: bobberPath });
@@ -202,7 +229,7 @@ describe('bobber', function () {
         });
     });
 
-    it('checkoutCodeSync mergeCommit git clone fail', function (done) {
+    it('checkoutCode mergeCommit git clone fail', function (done) {
 
         var pail = new Pail({ dirPath: bobberPath });
         var config = pail.createPail({ name: 'checkoutCodeSync' });
@@ -232,31 +259,6 @@ describe('bobber', function () {
             Fs.rmdirSync(bobberPath);
             done();
         });
-    });
-
-    it('checkoutCode mergeCommit git clone fail', function (done) {
-
-        var pail = new Pail({ dirPath: bobberPath });
-        var config = pail.createPail({ name: 'checkoutCodeSync' });
-        pail.createDir(config.id + '/workspace');
-        var scm = {
-            type: 'github',
-            branch: 'master',
-            url: 'https://anon@anon:github.com/fishin/invalid'
-        };
-        var bobber = new Bobber({});
-        var result = bobber.checkoutCodeSync(bobberPath + '/' + config.id + '/workspace', scm, {});
-        //var result = bobber.checkoutCodeSync(bobberPath + '/' + config.id + '/workspace', scm);
-        //console.log(result);
-        expect(result.startTime).to.exist();
-        expect(result.finishTime).to.exist();
-        expect(result.commands[0].command).to.include('git clone');
-        expect(result.commands[0].stderr).to.include('fatal:');
-        expect(result.status).to.equal('failed');
-        var commit = bobber.getLatestCommit(bobberPath + '/' + config.id + '/workspace');
-        pail.deletePail(config.id);
-        Fs.rmdirSync(bobberPath);
-        done();
     });
 
     it('getElements', function (done) {
