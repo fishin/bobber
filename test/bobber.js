@@ -112,7 +112,7 @@ describe('bobber', function () {
                 expect(result.commands.length).to.equal(3);
                 expect(result.commands[2].command).to.include('git pull');
                 expect(result.status).to.equal('succeeded');
-                var commit = bobber.getLatestCommit(bobberPath + '/' + config.id + '/workspace');
+                var commit = bobber.getLatestCommitSync(bobberPath + '/' + config.id + '/workspace');
                 // different commit number after merge not sure why it worked before
                 //expect(commit).to.equal(prs[0].commit);
                 pail.deletePail(config.id);
@@ -147,7 +147,7 @@ describe('bobber', function () {
             expect(result.commands[0].command).to.include('git clone');
             expect(result.commands[0].stderr).to.include('fatal:');
             expect(result.status).to.equal('failed');
-            var commit = bobber.getLatestCommit(bobberPath + '/' + config.id + '/workspace');
+            var commit = bobber.getLatestCommitSync(bobberPath + '/' + config.id + '/workspace');
             pail.deletePail(config.id);
             Fs.rmdirSync(bobberPath);
             done();
@@ -163,78 +163,78 @@ describe('bobber', function () {
         done();
     });
 
-    it('getAllCommits none', function (done) {
+    it('getAllCommitsSync none', function (done) {
 
         var bobber = new Bobber({});
         // get commits for this repo
-        var commits = bobber.getAllCommits('/tmp');
+        var commits = bobber.getAllCommitsSync('/tmp');
         expect(commits.length).to.equal(0);
         done();
     });
 
-    it('getAllCommits', function (done) {
+    it('getAllCommitsSync', function (done) {
 
         var bobber = new Bobber({});
         // get commits for this repo
-        var commits = bobber.getAllCommits('.');
+        var commits = bobber.getAllCommitsSync('.');
         expect(commits.length).to.above(0);
         done();
     });
 
-    it('getLatestCommit', function (done) {
+    it('getLatestCommitSync', function (done) {
 
         var bobber = new Bobber({});
         // get commits for this repo
-        var commit = bobber.getLatestCommit('.');
+        var commit = bobber.getLatestCommitSync('.');
         expect(commit.length).to.equal(40);
         done();
     });
 
-    it('getLatestRemoteCommit', function (done) {
+    it('getLatestRemoteCommitSync', function (done) {
 
         var bobber = new Bobber({});
         var scm = {
             branch: 'master'
         };
-        var commit = bobber.getLatestRemoteCommit(scm);
+        var commit = bobber.getLatestRemoteCommitSync(scm);
         expect(commit.length).to.equal(40);
         done();
     });
 
-    it('getLatestRemoteCommit invalid', function (done) {
+    it('getLatestRemoteCommitSync invalid', function (done) {
 
         var bobber = new Bobber({});
         var scm = {
             branch: 'master1'
         };
-        var commit = bobber.getLatestRemoteCommit('.', scm);
+        var commit = bobber.getLatestRemoteCommitSync('.', scm);
         expect(commit).to.not.exist();
         done();
     });
 
-    it('getBranches', function (done) {
+    it('getBranchesSync', function (done) {
 
         var bobber = new Bobber({});
         // get commits for this repo
-        var branches = bobber.getBranches('.');
+        var branches = bobber.getBranchesSync('.');
         //console.log(branches);
         expect(branches.length).to.above(0);
         done();
     });
 
-    it('getCompareCommits', function (done) {
+    it('getCompareCommitsSync', function (done) {
 
         var bobber = new Bobber({});
         // get commits for this repo
-        var commits = bobber.getAllCommits('.');
+        var commits = bobber.getAllCommitsSync('.');
         var prevCommit = commits[1].commit;
-        var commitsCompare = bobber.getCompareCommits('.', commits[0].commit, commits[1].commit);
+        var commitsCompare = bobber.getCompareCommitsSync('.', commits[0].commit, commits[1].commit);
         //console.log(commitsCompare);
         expect(commitsCompare.length).to.be.above(0);
         done();
     });
 
-    it('validUrl ssh', function (done) {
+    it('validateUrlSync ssh', function (done) {
 
         var bobber = new Bobber({});
         // get commits for this repo
@@ -243,11 +243,11 @@ describe('bobber', function () {
             branch: 'master',
             url: 'git@github.com:fishin/bobber'
         };
-        expect(bobber.validateUrl(scm)).to.be.true();
+        expect(bobber.validateUrlSync(scm)).to.be.true();
         done();
     });
 
-    it('validateUrl https valid', function (done) {
+    it('validateUrlSync https valid', function (done) {
 
         var bobber = new Bobber({});
         // get commits for this repo
@@ -256,11 +256,11 @@ describe('bobber', function () {
             branch: 'master',
             url: 'https://github.com/fishin/bobber'
         };
-        expect(bobber.validateUrl(scm)).to.be.true();
+        expect(bobber.validateUrlSync(scm)).to.be.true();
         done();
     });
 
-    it('validateUrl https invalid', function (done) {
+    it('validateUrlSync https invalid', function (done) {
 
         var bobber = new Bobber({});
         // get commits for this repo
@@ -269,11 +269,11 @@ describe('bobber', function () {
             branch: 'master',
             url: 'https://github.com/fishin/invalid'
         };
-        expect(bobber.validateUrl(scm)).to.be.false();
+        expect(bobber.validateUrlSync(scm)).to.be.false();
         done();
     });
 
-    it('validateUrl mock', function (done) {
+    it('validateUrlSync mock', function (done) {
 
         var bobber = new Bobber({ mock: true });
         var scm = {
@@ -281,7 +281,7 @@ describe('bobber', function () {
             branch: 'master',
             url: 'https://github.com/fishin/invalid'
         };
-        expect(bobber.validateUrl(scm)).to.be.true();
+        expect(bobber.validateUrlSync(scm)).to.be.true();
         done();
     });
 });
