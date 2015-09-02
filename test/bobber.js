@@ -249,6 +249,22 @@ describe('bobber', function () {
         done();
     });
 
+    it('validateUrl ssh', function (done) {
+
+        var bobber = new Bobber({});
+        // get commits for this repo
+        var scm = {
+            type: 'github',
+            branch: 'master',
+            url: 'git@github.com:fishin/bobber'
+        };
+        bobber.validateUrl(scm, function (result) {
+
+            expect(result).to.be.true();
+            done();
+        });
+    });
+
     it('validateUrlSync https valid', function (done) {
 
         var bobber = new Bobber({});
@@ -260,6 +276,22 @@ describe('bobber', function () {
         };
         expect(bobber.validateUrlSync(scm)).to.be.true();
         done();
+    });
+
+    it('validateUrl https valid', function (done) {
+
+        var bobber = new Bobber({});
+        // get commits for this repo
+        var scm = {
+            type: 'github',
+            branch: 'master',
+            url: 'https://github.com/fishin/bobber'
+        };
+        bobber.validateUrl(scm, function (result) {
+
+            expect(result).to.be.true();
+            done();
+        });
     });
 
     it('validateUrlSync https invalid', function (done) {
@@ -275,6 +307,22 @@ describe('bobber', function () {
         done();
     });
 
+    it('validateUrl https invalid', function (done) {
+
+        var bobber = new Bobber({});
+        // get commits for this repo
+        var scm = {
+            type: 'github',
+            branch: 'master',
+            url: 'https://github.com/fishin/invalid'
+        };
+        bobber.validateUrl(scm, function (result) {
+
+            expect(result).to.be.false();
+            done();
+        });
+    });
+
     it('validateUrlSync mock', function (done) {
 
         var bobber = new Bobber({ mock: true });
@@ -285,5 +333,20 @@ describe('bobber', function () {
         };
         expect(bobber.validateUrlSync(scm)).to.be.true();
         done();
+    });
+
+    it('validateUrl mock', function (done) {
+
+        var bobber = new Bobber({ mock: true });
+        var scm = {
+            type: 'github',
+            branch: 'master',
+            url: 'https://github.com/fishin/invalid'
+        };
+        bobber.validateUrl(scm, function (result) {
+
+            expect(result).to.be.true();
+            done();
+        });
     });
 });
