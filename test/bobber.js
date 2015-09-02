@@ -112,12 +112,14 @@ describe('bobber', function () {
                 expect(result.commands.length).to.equal(3);
                 expect(result.commands[2].command).to.include('git pull');
                 expect(result.status).to.equal('succeeded');
-                var commit = bobber.getLatestCommitSync(bobberPath + '/' + config.id + '/workspace');
-                // different commit number after merge not sure why it worked before
-                //expect(commit).to.equal(prs[0].commit);
-                pail.deletePail(config.id);
-                Fs.rmdirSync(bobberPath);
-                done();
+                bobber.getLatestCommit(bobberPath + '/' + config.id + '/workspace', function (commit) {
+
+                    // different commit number after merge not sure why it worked before
+                    //expect(commit).to.equal(prs[0].commit);
+                    pail.deletePail(config.id);
+                    Fs.rmdirSync(bobberPath);
+                    done();
+                });
             });
         });
     });
@@ -147,10 +149,12 @@ describe('bobber', function () {
             expect(result.commands[0].command).to.include('git clone');
             expect(result.commands[0].stderr).to.include('fatal:');
             expect(result.status).to.equal('failed');
-            var commit = bobber.getLatestCommitSync(bobberPath + '/' + config.id + '/workspace');
-            pail.deletePail(config.id);
-            Fs.rmdirSync(bobberPath);
-            done();
+            bobber.getLatestCommit(bobberPath + '/' + config.id + '/workspace', function (commit) {
+
+                pail.deletePail(config.id);
+                Fs.rmdirSync(bobberPath);
+                done();
+            });
         });
     });
 
@@ -172,6 +176,17 @@ describe('bobber', function () {
         done();
     });
 
+    it('getAllCommits none', function (done) {
+
+        var bobber = new Bobber({});
+        // get commits for this repo
+        bobber.getAllCommits('/tmp', function (commits) {
+
+            expect(commits.length).to.equal(0);
+            done();
+        });
+    });
+
     it('getAllCommitsSync', function (done) {
 
         var bobber = new Bobber({});
@@ -181,6 +196,17 @@ describe('bobber', function () {
         done();
     });
 
+    it('getAllCommits', function (done) {
+
+        var bobber = new Bobber({});
+        // get commits for this repo
+        bobber.getAllCommits('.', function (commits) {
+
+            expect(commits.length).to.above(0);
+            done();
+        });
+    });
+
     it('getLatestCommitSync', function (done) {
 
         var bobber = new Bobber({});
@@ -188,6 +214,17 @@ describe('bobber', function () {
         var commit = bobber.getLatestCommitSync('.');
         expect(commit.length).to.equal(40);
         done();
+    });
+
+    it('getLatestCommit', function (done) {
+
+        var bobber = new Bobber({});
+        // get commits for this repo
+        bobber.getLatestCommit('.', function (commit) {
+
+            expect(commit.length).to.equal(40);
+            done();
+        });
     });
 
     it('getLatestRemoteCommitSync', function (done) {
@@ -201,6 +238,19 @@ describe('bobber', function () {
         done();
     });
 
+    it('getLatestRemoteCommit', function (done) {
+
+        var bobber = new Bobber({});
+        var scm = {
+            branch: 'master'
+        };
+        bobber.getLatestRemoteCommit(scm, function (commit) {
+
+            expect(commit.length).to.equal(40);
+            done();
+        });
+    });
+
     it('getLatestRemoteCommitSync invalid', function (done) {
 
         var bobber = new Bobber({});
@@ -210,6 +260,19 @@ describe('bobber', function () {
         var commit = bobber.getLatestRemoteCommitSync('.', scm);
         expect(commit).to.not.exist();
         done();
+    });
+
+    it('getLatestRemoteCommit invalid', function (done) {
+
+        var bobber = new Bobber({});
+        var scm = {
+            branch: 'master1'
+        };
+        bobber.getLatestRemoteCommit(scm, function (commit) {
+
+            expect(commit).to.not.exist();
+            done();
+        });
     });
 
     it('getBranches', function (done) {
@@ -234,6 +297,22 @@ describe('bobber', function () {
         //console.log(commitsCompare);
         expect(commitsCompare.length).to.be.above(0);
         done();
+    });
+
+    it('getCompareCommits', function (done) {
+
+        var bobber = new Bobber({});
+        // get commits for this repo
+        bobber.getAllCommits('.', function (commits) {
+
+            var prevCommit = commits[1].commit;
+            bobber.getCompareCommits('.', commits[0].commit, commits[1].commit, function (commitsCompare) {
+
+                //console.log(commitsCompare);
+                expect(commitsCompare.length).to.be.above(0);
+                done();
+            });
+        });
     });
 
     it('validateUrlSync ssh', function (done) {
