@@ -212,14 +212,16 @@ describe('bobber', function () {
         done();
     });
 
-    it('getBranchesSync', function (done) {
+    it('getBranches', function (done) {
 
         var bobber = new Bobber({});
         // get commits for this repo
-        var branches = bobber.getBranchesSync('.');
-        //console.log(branches);
-        expect(branches.length).to.above(0);
-        done();
+        bobber.getBranches('.', function (branches) {
+
+            //console.log(branches);
+            expect(branches.length).to.above(0);
+            done();
+        });
     });
 
     it('getCompareCommitsSync', function (done) {
