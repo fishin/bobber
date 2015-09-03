@@ -14,7 +14,7 @@
   },
   "homepage": "https://github.com/fishin/bobber",
   "engines": {
-    "node": ">=0.12.x"
+    "node": ">=0.10.x"
   },
   "scripts": {
     "clean": "rm -rf node_modules",
@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "hoek": "2.x.x",
-    "wreck": "5.x.x",
+    "wreck": "6.x.x",
     "smelt": "git+https://github.com/fishin/smelt"
   },
   "devDependencies": {
