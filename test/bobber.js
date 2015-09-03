@@ -127,7 +127,7 @@ describe('bobber', function () {
     it('checkoutCode mergeCommit git clone fail', function (done) {
 
         var pail = new Pail({ dirPath: bobberPath });
-        var config = pail.createPail({ name: 'checkoutCodeSync' });
+        var config = pail.createPail({ name: 'checkoutCode' });
         pail.createDir(config.id + '/workspace');
         var scm = {
             type: 'github',
@@ -167,15 +167,6 @@ describe('bobber', function () {
         done();
     });
 
-    it('getAllCommitsSync none', function (done) {
-
-        var bobber = new Bobber({});
-        // get commits for this repo
-        var commits = bobber.getAllCommitsSync('/tmp');
-        expect(commits.length).to.equal(0);
-        done();
-    });
-
     it('getAllCommits none', function (done) {
 
         var bobber = new Bobber({});
@@ -185,15 +176,6 @@ describe('bobber', function () {
             expect(commits.length).to.equal(0);
             done();
         });
-    });
-
-    it('getAllCommitsSync', function (done) {
-
-        var bobber = new Bobber({});
-        // get commits for this repo
-        var commits = bobber.getAllCommitsSync('.');
-        expect(commits.length).to.above(0);
-        done();
     });
 
     it('getAllCommits', function (done) {
@@ -207,15 +189,6 @@ describe('bobber', function () {
         });
     });
 
-    it('getLatestCommitSync', function (done) {
-
-        var bobber = new Bobber({});
-        // get commits for this repo
-        var commit = bobber.getLatestCommitSync('.');
-        expect(commit.length).to.equal(40);
-        done();
-    });
-
     it('getLatestCommit', function (done) {
 
         var bobber = new Bobber({});
@@ -225,17 +198,6 @@ describe('bobber', function () {
             expect(commit.length).to.equal(40);
             done();
         });
-    });
-
-    it('getLatestRemoteCommitSync', function (done) {
-
-        var bobber = new Bobber({});
-        var scm = {
-            branch: 'master'
-        };
-        var commit = bobber.getLatestRemoteCommitSync(scm);
-        expect(commit.length).to.equal(40);
-        done();
     });
 
     it('getLatestRemoteCommit', function (done) {
@@ -249,17 +211,6 @@ describe('bobber', function () {
             expect(commit.length).to.equal(40);
             done();
         });
-    });
-
-    it('getLatestRemoteCommitSync invalid', function (done) {
-
-        var bobber = new Bobber({});
-        var scm = {
-            branch: 'master1'
-        };
-        var commit = bobber.getLatestRemoteCommitSync('.', scm);
-        expect(commit).to.not.exist();
-        done();
     });
 
     it('getLatestRemoteCommit invalid', function (done) {
@@ -287,18 +238,6 @@ describe('bobber', function () {
         });
     });
 
-    it('getCompareCommitsSync', function (done) {
-
-        var bobber = new Bobber({});
-        // get commits for this repo
-        var commits = bobber.getAllCommitsSync('.');
-        var prevCommit = commits[1].commit;
-        var commitsCompare = bobber.getCompareCommitsSync('.', commits[0].commit, commits[1].commit);
-        //console.log(commitsCompare);
-        expect(commitsCompare.length).to.be.above(0);
-        done();
-    });
-
     it('getCompareCommits', function (done) {
 
         var bobber = new Bobber({});
@@ -313,19 +252,6 @@ describe('bobber', function () {
                 done();
             });
         });
-    });
-
-    it('validateUrlSync ssh', function (done) {
-
-        var bobber = new Bobber({});
-        // get commits for this repo
-        var scm = {
-            type: 'github',
-            branch: 'master',
-            url: 'git@github.com:fishin/bobber'
-        };
-        expect(bobber.validateUrlSync(scm)).to.be.true();
-        done();
     });
 
     it('validateUrl ssh', function (done) {
@@ -344,19 +270,6 @@ describe('bobber', function () {
         });
     });
 
-    it('validateUrlSync https valid', function (done) {
-
-        var bobber = new Bobber({});
-        // get commits for this repo
-        var scm = {
-            type: 'github',
-            branch: 'master',
-            url: 'https://github.com/fishin/bobber'
-        };
-        expect(bobber.validateUrlSync(scm)).to.be.true();
-        done();
-    });
-
     it('validateUrl https valid', function (done) {
 
         var bobber = new Bobber({});
@@ -373,19 +286,6 @@ describe('bobber', function () {
         });
     });
 
-    it('validateUrlSync https invalid', function (done) {
-
-        var bobber = new Bobber({});
-        // get commits for this repo
-        var scm = {
-            type: 'github',
-            branch: 'master',
-            url: 'https://github.com/fishin/invalid'
-        };
-        expect(bobber.validateUrlSync(scm)).to.be.false();
-        done();
-    });
-
     it('validateUrl https invalid', function (done) {
 
         var bobber = new Bobber({});
@@ -400,18 +300,6 @@ describe('bobber', function () {
             expect(result).to.be.false();
             done();
         });
-    });
-
-    it('validateUrlSync mock', function (done) {
-
-        var bobber = new Bobber({ mock: true });
-        var scm = {
-            type: 'github',
-            branch: 'master',
-            url: 'https://github.com/fishin/invalid'
-        };
-        expect(bobber.validateUrlSync(scm)).to.be.true();
-        done();
     });
 
     it('validateUrl mock', function (done) {
