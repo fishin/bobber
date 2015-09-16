@@ -1,5 +1,6 @@
 var Code = require('code');
 var Fs = require('fs');
+var Hoek = require('hoek');
 var Lab = require('lab');
 var Mock = require('mock');
 var Path = require('path');
@@ -49,7 +50,7 @@ describe('pull requests', function () {
                     expect(prs[0].mergeCommit.length).to.equal(40);
                     expect(prs[0].shortCommit.length).to.equal(7);
                     expect(prs[0].repoUrl).to.equal('https://anon:anon@github.com/org/repo');
-                    server.stop();
+                    server.stop(Hoek.ignore);
                     done();
                 });
             });
@@ -90,7 +91,7 @@ describe('pull requests', function () {
                     expect(prs[0].mergeCommit.length).to.equal(40);
                     expect(prs[0].shortCommit.length).to.equal(7);
                     expect(prs[0].repoUrl).to.equal('https://anon:anon@github.com/org/repo');
-                    server.stop();
+                    server.stop(Hoek.ignore);
                     done();
                 });
             });
@@ -129,7 +130,7 @@ describe('pull requests', function () {
                     expect(pr.mergeCommit.length).to.equal(40);
                     expect(pr.shortCommit.length).to.equal(7);
                     expect(pr.repoUrl).to.equal('https://github.com/org/repo');
-                    server.stop();
+                    server.stop(Hoek.ignore);
                     done();
                 });
             });
@@ -164,7 +165,7 @@ describe('pull requests', function () {
 
                     //console.log(pr);
                     expect(pr).to.not.exist();
-                    server.stop();
+                    server.stop(Hoek.ignore);
                     done();
                 });
             });
@@ -204,7 +205,7 @@ describe('pull requests', function () {
                     expect(pr.mergeCommit.length).to.equal(40);
                     expect(pr.shortCommit.length).to.equal(7);
                     expect(pr.repoUrl).to.equal('https://github.com/org/repo');
-                    server.stop();
+                    server.stop(Hoek.ignore);
                     done();
                 });
             });
@@ -240,7 +241,7 @@ describe('pull requests', function () {
 
                     //console.log(pr);
                     expect(pr).to.not.exist();
-                    server.stop();
+                    server.stop(Hoek.ignore);
                     done();
                 });
             });
@@ -278,7 +279,7 @@ describe('pull requests', function () {
                     //console.log(result);
                     expect(result.state).to.equal('pending');
                     expect(result.description).to.equal('pending');
-                    server.stop();
+                    server.stop(Hoek.ignore);
                     done();
                 });
             });
@@ -315,7 +316,7 @@ describe('pull requests', function () {
 
                     //console.log(result);
                     expect(result.error).to.exist();
-                    server.stop();
+                    server.stop(Hoek.ignore);
                     done();
                 });
             });
@@ -352,7 +353,7 @@ describe('pull requests', function () {
 
                     //console.log(result);
                     expect(result.error).to.exist();
-                    server.stop();
+                    server.stop(Hoek.ignore);
                     done();
                 });
             });
@@ -391,7 +392,7 @@ describe('pull requests', function () {
                     expect(result.error).to.not.exist();
                     expect(result.merged).to.be.true();
                     expect(result.message).to.equal('Pull Request successfully merged');
-                    server.stop();
+                    server.stop(Hoek.ignore);
                     done();
                 });
             });
@@ -427,7 +428,7 @@ describe('pull requests', function () {
 
                     //console.log(result);
                     expect(result.error).to.exist();
-                    server.stop();
+                    server.stop(Hoek.ignore);
                     done();
                 });
             });
@@ -464,7 +465,7 @@ describe('pull requests', function () {
                     //console.log(result);
                     expect(result.merged).to.be.false();
                     expect(result.error).to.equal('Pull Request is not mergeable');
-                    server.stop();
+                    server.stop(Hoek.ignore);
                     done();
                 });
             });
@@ -500,7 +501,7 @@ describe('pull requests', function () {
 
                     //console.log(result);
                     expect(result.error).to.exist();
-                    server.stop();
+                    server.stop(Hoek.ignore);
                     done();
                 });
             });
@@ -539,7 +540,7 @@ describe('pull requests', function () {
                     expect(prs[0].mergeCommit.length).to.equal(40);
                     expect(prs[0].shortCommit.length).to.equal(7);
                     expect(prs[0].repoUrl).to.equal('https://github.com/org/repo');
-                    server.stop();
+                    server.stop(Hoek.ignore);
                     done();
                 });
             });
@@ -578,7 +579,7 @@ describe('pull requests', function () {
                     expect(prs[0].mergeCommit.length).to.equal(40);
                     expect(prs[0].shortCommit.length).to.equal(7);
                     expect(prs[0].repoUrl).to.equal('git@github.com/org/repo');
-                    server.stop();
+                    server.stop(Hoek.ignore);
                     done();
                 });
             });
@@ -612,7 +613,7 @@ describe('pull requests', function () {
 
                     //console.log(prs);
                     expect(prs.length).to.equal(0);
-                    server.stop();
+                    server.stop(Hoek.ignore);
                     done();
                 });
             });
@@ -646,7 +647,7 @@ describe('pull requests', function () {
 
                     //console.log(prs);
                     expect(prs.length).to.equal(0);
-                    server.stop();
+                    server.stop(Hoek.ignore);
                     done();
                 });
             });

@@ -80,7 +80,7 @@ describe('bobber', function () {
     it('checkoutCode mergeCommit merge', function (done) {
 
         var pail = new Pail({ dirPath: bobberPath });
-        var config = pail.createPail({ name: 'checkoutCode' });
+        var config = pail.createPail({ name: 'checkoutMerge' });
         pail.createDir(config.id + '/workspace');
         var scm = {
             type: 'github',
@@ -126,7 +126,7 @@ describe('bobber', function () {
     it('checkoutCode mergeCommit git clone fail', function (done) {
 
         var pail = new Pail({ dirPath: bobberPath });
-        var config = pail.createPail({ name: 'checkoutCode' });
+        var config = pail.createPail({ name: 'checkoutMergeFail' });
         pail.createDir(config.id + '/workspace');
         var scm = {
             type: 'github',
