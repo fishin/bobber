@@ -25,11 +25,6 @@ describe('pull requests', function () {
                 method: 'get',
                 path: '/repos/org/repo/pulls',
                 file: 'index.json'
-            },
-            {
-                method: 'get',
-                path: '/rate_limit',
-                file: 'anonymous.json'
             }
         ];
         Mock.prepareServer(type, routes, function (server) {
@@ -65,11 +60,6 @@ describe('pull requests', function () {
                 method: 'get',
                 path: '/repos/org/repo/pulls',
                 file: 'index.json'
-            },
-            {
-                method: 'get',
-                path: '/rate_limit',
-                file: 'authorized.json'
             }
         ];
         Mock.prepareServer(type, routes, function (server) {
@@ -516,11 +506,6 @@ describe('pull requests', function () {
                 method: 'get',
                 path: '/repos/org/repo/pulls',
                 file: 'index.json'
-            },
-            {
-                method: 'get',
-                path: '/rate_limit',
-                file: 'anonymous.json'
             }
         ];
         Mock.prepareServer(type, routes, function (server) {
@@ -555,11 +540,6 @@ describe('pull requests', function () {
                 method: 'get',
                 path: '/repos/org/repo/pulls',
                 file: 'index.json'
-            },
-            {
-                method: 'get',
-                path: '/rate_limit',
-                file: 'anonymous.json'
             }
         ];
         Mock.prepareServer(type, routes, function (server) {
@@ -593,11 +573,6 @@ describe('pull requests', function () {
             {
                 method: 'get',
                 path: '/repos/org/repo/pulls',
-                file: 'index.json'
-            },
-            {
-                method: 'get',
-                path: '/rate_limit',
                 file: 'reached.json'
             }
         ];
@@ -628,11 +603,6 @@ describe('pull requests', function () {
                 method: 'get',
                 path: '/repos/org/invalid/pulls',
                 file: 'notfound.json'
-            },
-            {
-                method: 'get',
-                path: '/rate_limit',
-                file: 'anonymous.json'
             }
         ];
         Mock.prepareServer(type, routes, function (server) {
