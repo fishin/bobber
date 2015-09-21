@@ -72,7 +72,6 @@ describe('bobber', function () {
             expect(result.status).to.equal('succeeded');
             // cleanup
             pail.deletePail(config.id);
-            Fs.rmdirSync(bobberPath);
             done();
         });
     });
