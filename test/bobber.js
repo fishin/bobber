@@ -115,7 +115,6 @@ describe('bobber', function () {
                     // different commit number after merge not sure why it worked before
                     //expect(commit).to.equal(prs[0].commit);
                     pail.deletePail(config.id);
-                    Fs.rmdirSync(bobberPath);
                     done();
                 });
             });
@@ -150,7 +149,6 @@ describe('bobber', function () {
             bobber.getLatestCommit(bobberPath + '/' + config.id + '/workspace', function (commit) {
 
                 pail.deletePail(config.id);
-                Fs.rmdirSync(bobberPath);
                 done();
             });
         });

@@ -338,11 +338,6 @@ describe('pull requests', function () {
                 method: 'put',
                 path: '/repos/org/repo/pulls/1/merge',
                 file: 'index.json'
-            },
-            {
-                method: 'get',
-                path: '/rate_limit',
-                file: 'authorized.json'
             }
         ];
         Mock.prepareServer(type, routes, function (server) {
@@ -377,11 +372,6 @@ describe('pull requests', function () {
                 method: 'put',
                 path: '/repos/org/repo/pulls/1/merge',
                 file: 'error.txt'
-            },
-            {
-                method: 'get',
-                path: '/rate_limit',
-                file: 'authorized.json'
             }
         ];
         Mock.prepareServer(type, routes, function (server) {
@@ -413,11 +403,6 @@ describe('pull requests', function () {
                 method: 'put',
                 path: '/repos/org/repo/pulls/1/merge',
                 file: 'fail.json'
-            },
-            {
-                method: 'get',
-                path: '/rate_limit',
-                file: 'authorized.json'
             }
         ];
         Mock.prepareServer(type, routes, function (server) {
@@ -449,11 +434,6 @@ describe('pull requests', function () {
             {
                 method: 'put',
                 path: '/repos/org/repo/pulls/1/merge',
-                file: 'index.json'
-            },
-            {
-                method: 'get',
-                path: '/rate_limit',
                 file: 'reached.json'
             }
         ];
