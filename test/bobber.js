@@ -13,12 +13,12 @@ var expect = Code.expect;
 var describe = lab.describe;
 var it = lab.it;
 
-var bobberPath = __dirname + '/tmp';
 
 describe('bobber', function () {
 
     it('checkoutCode new', function (done) {
 
+        var bobberPath = __dirname + '/tmp';
         var pail = new Pail({ dirPath: bobberPath });
         var config = pail.createPail({ name: 'checkoutCode' });
         pail.createDir(config.id + '/workspace');
@@ -47,6 +47,7 @@ describe('bobber', function () {
 
     it('checkoutCode existing', function (done) {
 
+        var bobberPath = __dirname + '/tmp';
         var scm = {
             type: 'github',
             branch: 'master',
@@ -78,6 +79,7 @@ describe('bobber', function () {
 
     it('checkoutCode mergeCommit merge', function (done) {
 
+        var bobberPath = __dirname + '/tmp';
         var pail = new Pail({ dirPath: bobberPath });
         var config = pail.createPail({ name: 'checkoutMerge' });
         pail.createDir(config.id + '/workspace');
@@ -112,17 +114,16 @@ describe('bobber', function () {
                 expect(result.status).to.equal('succeeded');
                 bobber.getLatestCommit(bobberPath + '/' + config.id + '/workspace', function (commit) {
 
-                    // different commit number after merge not sure why it worked before
-                    //expect(commit).to.equal(prs[0].commit);
+                    expect(commit.length).to.equal(40);
                     pail.deletePail(config.id);
                     done();
                 });
             });
         });
     });
-
     it('checkoutCode mergeCommit git clone fail', function (done) {
 
+        var bobberPath = __dirname + '/tmp';
         var pail = new Pail({ dirPath: bobberPath });
         var config = pail.createPail({ name: 'checkoutMergeFail' });
         pail.createDir(config.id + '/workspace');
