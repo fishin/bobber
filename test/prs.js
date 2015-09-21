@@ -96,11 +96,6 @@ describe('pull requests', function () {
                 method: 'get',
                 path: '/repos/org/repo/pulls/1',
                 file: 'index.json'
-            },
-            {
-                method: 'get',
-                path: '/rate_limit',
-                file: 'anonymous.json'
             }
         ];
         Mock.prepareServer(type, routes, function (server) {
@@ -134,11 +129,6 @@ describe('pull requests', function () {
             {
                 method: 'get',
                 path: '/repos/org/repo/pulls/1',
-                file: 'index.json'
-            },
-            {
-                method: 'get',
-                path: '/rate_limit',
                 file: 'reached.json'
             }
         ];
@@ -170,11 +160,6 @@ describe('pull requests', function () {
                 method: 'get',
                 path: '/repos/org/repo/pulls/1',
                 file: 'index.json'
-            },
-            {
-                method: 'get',
-                path: '/rate_limit',
-                file: 'authorized.json'
             }
         ];
         Mock.prepareServer(type, routes, function (server) {
@@ -210,11 +195,6 @@ describe('pull requests', function () {
                 method: 'get',
                 path: '/repos/org/repo/pulls/1',
                 file: 'notfound.json'
-            },
-            {
-                method: 'get',
-                path: '/rate_limit',
-                file: 'authorized.json'
             }
         ];
         Mock.prepareServer(type, routes, function (server) {
@@ -617,6 +597,94 @@ describe('pull requests', function () {
 
                     //console.log(prs);
                     expect(prs.length).to.equal(0);
+                    server.stop(Hoek.ignore);
+                    done();
+                });
+            });
+        });
+    });
+
+    it('checkApiRateLimit reached no token', function (done) {
+
+        var type = 'github';
+        var routes = [
+            {
+                method: 'get',
+                path: '/rate_limit',
+                file: 'reached.json'
+            }
+        ];
+        Mock.prepareServer(type, routes, function (server) {
+
+            server.start(function () {
+
+                var bobber = new Bobber({ github: { url: server.info.uri } });
+                var scm = {
+                    url: 'https://github.com/org/repo'
+                };
+                bobber.checkApiRateLimit(scm, null, function (result) {
+
+                    //console.log(result);
+                    expect(result.rate.remaining).to.equal(0);
+                    server.stop(Hoek.ignore);
+                    done();
+                });
+            });
+        });
+    });
+
+    it('checkApiRateLimit token', function (done) {
+
+        var type = 'github';
+        var routes = [
+            {
+                method: 'get',
+                path: '/rate_limit',
+                file: 'authorized.json'
+            }
+        ];
+        Mock.prepareServer(type, routes, function (server) {
+
+            server.start(function () {
+
+                var bobber = new Bobber({ github: { url: server.info.uri } });
+                var scm = {
+                    url: 'https://github.com/org/repo'
+                };
+                var token = 1;
+                bobber.checkApiRateLimit(scm, token, function (result) {
+
+                    //console.log(result);
+                    expect(result).to.not.exist();
+                    server.stop(Hoek.ignore);
+                    done();
+                });
+            });
+        });
+    });
+
+    it('checkApiRateLimit no token', function (done) {
+
+        var type = 'github';
+        var routes = [
+            {
+                method: 'get',
+                path: '/rate_limit',
+                file: 'anonymous.json'
+            }
+        ];
+        Mock.prepareServer(type, routes, function (server) {
+
+            server.start(function () {
+
+                var bobber = new Bobber({ github: { url: server.info.uri } });
+                var scm = {
+                    url: 'https://github.com/org/repo'
+                };
+                bobber.checkApiRateLimit(scm, null, function (result) {
+
+                    //console.log(result);
+                    expect(result).to.not.exist();
                     server.stop(Hoek.ignore);
                     done();
                 });
