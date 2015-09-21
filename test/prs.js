@@ -226,11 +226,6 @@ describe('pull requests', function () {
                 method: 'post',
                 path: '/repos/org/repo/statuses/1',
                 file: 'index.json'
-            },
-            {
-                method: 'get',
-                path: '/rate_limit',
-                file: 'authorized.json'
             }
         ];
         Mock.prepareServer(type, routes, function (server) {
@@ -263,11 +258,6 @@ describe('pull requests', function () {
             {
                 method: 'post',
                 path: '/repos/org/repo/statuses/1',
-                file: 'index.json'
-            },
-            {
-                method: 'get',
-                path: '/rate_limit',
                 file: 'reached.json'
             }
         ];
@@ -301,11 +291,6 @@ describe('pull requests', function () {
                 method: 'post',
                 path: '/repos/org/repo/statuses/1',
                 file: 'notfound.json'
-            },
-            {
-                method: 'get',
-                path: '/rate_limit',
-                file: 'authorized.json'
             }
         ];
         Mock.prepareServer(type, routes, function (server) {
