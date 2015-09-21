@@ -121,6 +121,7 @@ describe('bobber', function () {
             });
         });
     });
+
     it('checkoutCode mergeCommit git clone fail', function (done) {
 
         var bobberPath = __dirname + '/tmp';
