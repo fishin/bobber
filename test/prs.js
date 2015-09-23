@@ -152,6 +152,36 @@ describe('pull requests', function () {
         });
     });
 
+    it('getPullRequest null payload', function (done) {
+
+        var type = 'github';
+        var routes = [
+            {
+                method: 'get',
+                path: '/repos/org/repo/pulls/1',
+                file: 'null'
+            }
+        ];
+        Mock.prepareServer(type, routes, function (server) {
+
+            server.start(function () {
+
+                var bobber = new Bobber({ github: { url: server.info.uri } });
+                var scm = {
+                    url: 'https://github.com/org/repo'
+                };
+                var number = 1;
+                bobber.getPullRequest(scm, number, null, function (pr) {
+
+                    //console.log(pr);
+                    expect(pr).to.not.exist();
+                    server.stop(Hoek.ignore);
+                    done();
+                });
+            });
+        });
+    });
+
     it('getPullRequest rate_limit token', function (done) {
 
         var type = 'github';
@@ -519,6 +549,35 @@ describe('pull requests', function () {
                 method: 'get',
                 path: '/repos/org/repo/pulls',
                 file: 'reached.json'
+            }
+        ];
+        Mock.prepareServer(type, routes, function (server) {
+
+            server.start(function () {
+
+                var bobber = new Bobber({ github: { url: server.info.uri } });
+                var scm = {
+                    url: 'https://anon:anon@github.com/org/repo'
+                };
+                bobber.getPullRequests(scm, null, function (prs) {
+
+                    //console.log(prs);
+                    expect(prs.length).to.equal(0);
+                    server.stop(Hoek.ignore);
+                    done();
+                });
+            });
+        });
+    });
+
+    it('getPullRequests null payload', function (done) {
+
+        var type = 'github';
+        var routes = [
+            {
+                method: 'get',
+                path: '/repos/org/repo/pulls',
+                file: 'null'
             }
         ];
         Mock.prepareServer(type, routes, function (server) {
