@@ -1,10 +1,7 @@
 var Code = require('code');
-var Fs = require('fs');
 var Hoek = require('hoek');
 var Lab = require('lab');
 var Mock = require('mock');
-var Path = require('path');
-var Pail = require('pail');
 
 var Bobber = require('../lib');
 

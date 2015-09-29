@@ -1,7 +1,5 @@
 var Code = require('code');
-var Fs = require('fs');
 var Lab = require('lab');
-var Path = require('path');
 var Pail = require('pail');
 
 var Bobber = require('../lib');
@@ -242,7 +240,6 @@ describe('bobber', function () {
         // get commits for this repo
         bobber.getAllCommits('.', function (commits) {
 
-            var prevCommit = commits[1].commit;
             bobber.getCompareCommits('.', commits[0].commit, commits[1].commit, function (commitsCompare) {
 
                 //console.log(commitsCompare);
