@@ -1,38 +1,40 @@
-var Code = require('code');
-var Lab = require('lab');
-var Pail = require('pail');
+'use strict';
 
-var Bobber = require('../lib');
+const Code = require('code');
+const Lab = require('lab');
+const Pail = require('pail');
 
-var internals = {};
+const Bobber = require('../lib');
 
-var lab = exports.lab = Lab.script();
-var expect = Code.expect;
-var describe = lab.describe;
-var it = lab.it;
+const internals = {};
+
+const lab = exports.lab = Lab.script();
+const expect = Code.expect;
+const describe = lab.describe;
+const it = lab.it;
 
 
-describe('bobber', function () {
+describe('bobber', () => {
 
-    it('checkoutCode new', function (done) {
+    it('checkoutCode new', (done) => {
 
-        var bobberPath = __dirname + '/tmp';
-        var pail = new Pail({ dirPath: bobberPath });
-        var config = pail.createPail({ name: 'checkoutCode' });
+        const bobberPath = __dirname + '/tmp';
+        const pail = new Pail({ dirPath: bobberPath });
+        const config = pail.createPail({ name: 'checkoutCode' });
         pail.createDir(config.id + '/workspace');
-        var scm = {
+        const scm = {
             type: 'github',
             branch: 'master',
             url: 'https://github.com/fishin/bobber'
         };
-        var bobber = new Bobber({});
-        var options = {
+        const bobber = new Bobber({});
+        const options = {
             path: bobberPath + '/' + config.id + '/workspace',
             scm: scm,
             pr: null,
             pidsObj: null
         };
-        bobber.checkoutCode(options, function (result) {
+        bobber.checkoutCode(options, (result) => {
 
             expect(result.startTime).to.exist();
             expect(result.finishTime).to.exist();
@@ -43,25 +45,25 @@ describe('bobber', function () {
         });
     });
 
-    it('checkoutCode existing', function (done) {
+    it('checkoutCode existing', (done) => {
 
-        var bobberPath = __dirname + '/tmp';
-        var scm = {
+        const bobberPath = __dirname + '/tmp';
+        const scm = {
             type: 'github',
             branch: 'master',
             url: 'git@github.com:fishin/bobber'
         };
-        var bobber = new Bobber({});
-        var pail = new Pail({ dirPath: bobberPath });
-        var pails = pail.getPails();
-        var config = pail.getPail(pails[0]);
-        var options = {
+        const bobber = new Bobber({});
+        const pail = new Pail({ dirPath: bobberPath });
+        const pails = pail.getPails();
+        const config = pail.getPail(pails[0]);
+        const options = {
             path: bobberPath + '/' + config.id + '/workspace',
             scm: scm,
             pr: null,
             pidsObj: null
         };
-        bobber.checkoutCode(options, function (result) {
+        bobber.checkoutCode(options, (result) => {
 
             expect(result.startTime).to.exist();
             expect(result.finishTime).to.exist();
@@ -75,19 +77,19 @@ describe('bobber', function () {
         });
     });
 
-    it('checkoutCode mergeCommit merge', function (done) {
+    it('checkoutCode mergeCommit merge', (done) => {
 
-        var bobberPath = __dirname + '/tmp';
-        var pail = new Pail({ dirPath: bobberPath });
-        var config = pail.createPail({ name: 'checkoutMerge' });
+        const bobberPath = __dirname + '/tmp';
+        const pail = new Pail({ dirPath: bobberPath });
+        const config = pail.createPail({ name: 'checkoutMerge' });
         pail.createDir(config.id + '/workspace');
-        var scm = {
+        const scm = {
             type: 'github',
             branch: 'master',
             url: 'https://github.com/fishin/demo'
         };
-        var bobber = new Bobber({});
-        bobber.getPullRequests(scm, null, function (prs) {
+        const bobber = new Bobber({});
+        bobber.getPullRequests(scm, null, (prs) => {
 
             //console.log(prs);
             expect(prs.length).to.be.above(0);
@@ -96,13 +98,13 @@ describe('bobber', function () {
             expect(prs[0].mergeCommit.length).to.equal(40);
             expect(prs[0].shortCommit.length).to.equal(7);
             expect(prs[0].repoUrl).to.equal('https://github.com/fishin/demo');
-            var options = {
+            const options = {
                 path: bobberPath + '/' + config.id + '/workspace',
                 scm: scm,
                 pr: prs[0],
                 pidsObj: null
             };
-            bobber.checkoutCode(options, function (result) {
+            bobber.checkoutCode(options, (result) => {
 
                 //console.log(result);
                 expect(result.startTime).to.exist();
@@ -110,7 +112,7 @@ describe('bobber', function () {
                 expect(result.commands.length).to.equal(3);
                 expect(result.commands[2].command).to.include('git pull');
                 expect(result.status).to.equal('succeeded');
-                bobber.getLatestCommit(bobberPath + '/' + config.id + '/workspace', function (commit) {
+                bobber.getLatestCommit(bobberPath + '/' + config.id + '/workspace', (commit) => {
 
                     expect(commit.length).to.equal(40);
                     pail.deletePail(config.id);
@@ -120,25 +122,25 @@ describe('bobber', function () {
         });
     });
 
-    it('checkoutCode mergeCommit git clone fail', function (done) {
+    it('checkoutCode mergeCommit git clone fail', (done) => {
 
-        var bobberPath = __dirname + '/tmp';
-        var pail = new Pail({ dirPath: bobberPath });
-        var config = pail.createPail({ name: 'checkoutMergeFail' });
+        const bobberPath = __dirname + '/tmp';
+        const pail = new Pail({ dirPath: bobberPath });
+        const config = pail.createPail({ name: 'checkoutMergeFail' });
         pail.createDir(config.id + '/workspace');
-        var scm = {
+        const scm = {
             type: 'github',
             branch: 'master',
             url: 'https://anon@anon:github.com/fishin/invalid'
         };
-        var bobber = new Bobber({});
-        var options = {
+        const bobber = new Bobber({});
+        const options = {
             path: bobberPath + '/' + config.id + '/workspace',
             scm: scm,
             pr: {},
             pidsObj: null
         };
-        bobber.checkoutCode(options, function (result) {
+        bobber.checkoutCode(options, (result) => {
 
             //console.log(result);
             expect(result.startTime).to.exist();
@@ -146,7 +148,7 @@ describe('bobber', function () {
             expect(result.commands[0].command).to.include('git clone');
             expect(result.commands[0].stderr).to.include('fatal:');
             expect(result.status).to.equal('failed');
-            bobber.getLatestCommit(bobberPath + '/' + config.id + '/workspace', function (commit) {
+            bobber.getLatestCommit(bobberPath + '/' + config.id + '/workspace', (commit) => {
 
                 pail.deletePail(config.id);
                 done();
@@ -154,79 +156,79 @@ describe('bobber', function () {
         });
     });
 
-    it('getElements', function (done) {
+    it('getElements', (done) => {
 
-        var bobber = new Bobber({});
-        var elements = bobber.getElements();
+        const bobber = new Bobber({});
+        const elements = bobber.getElements();
         //console.log(elements);
         expect(elements).to.be.length(2);
         done();
     });
 
-    it('getAllCommits none', function (done) {
+    it('getAllCommits none', (done) => {
 
-        var bobber = new Bobber({});
+        const bobber = new Bobber({});
         // get commits for this repo
-        bobber.getAllCommits('/tmp', function (commits) {
+        bobber.getAllCommits('/tmp', (commits) => {
 
             expect(commits.length).to.equal(0);
             done();
         });
     });
 
-    it('getAllCommits', function (done) {
+    it('getAllCommits', (done) => {
 
-        var bobber = new Bobber({});
+        const bobber = new Bobber({});
         // get commits for this repo
-        bobber.getAllCommits('.', function (commits) {
+        bobber.getAllCommits('.', (commits) => {
 
             expect(commits.length).to.above(0);
             done();
         });
     });
 
-    it('getLatestCommit', function (done) {
+    it('getLatestCommit', (done) => {
 
-        var bobber = new Bobber({});
+        const bobber = new Bobber({});
         // get commits for this repo
-        bobber.getLatestCommit('.', function (commit) {
+        bobber.getLatestCommit('.', (commit) => {
 
             expect(commit.length).to.equal(40);
             done();
         });
     });
 
-    it('getLatestRemoteCommit', function (done) {
+    it('getLatestRemoteCommit', (done) => {
 
-        var bobber = new Bobber({});
-        var scm = {
+        const bobber = new Bobber({});
+        const scm = {
             branch: 'master'
         };
-        bobber.getLatestRemoteCommit(scm, function (commit) {
+        bobber.getLatestRemoteCommit(scm, (commit) => {
 
             expect(commit.length).to.equal(40);
             done();
         });
     });
 
-    it('getLatestRemoteCommit invalid', function (done) {
+    it('getLatestRemoteCommit invalid', (done) => {
 
-        var bobber = new Bobber({});
-        var scm = {
+        const bobber = new Bobber({});
+        const scm = {
             branch: 'master1'
         };
-        bobber.getLatestRemoteCommit(scm, function (commit) {
+        bobber.getLatestRemoteCommit(scm, (commit) => {
 
             expect(commit).to.not.exist();
             done();
         });
     });
 
-    it('getBranches', function (done) {
+    it('getBranches', (done) => {
 
-        var bobber = new Bobber({});
+        const bobber = new Bobber({});
         // get commits for this repo
-        bobber.getBranches('.', function (branches) {
+        bobber.getBranches('.', (branches) => {
 
             //console.log(branches);
             expect(branches.length).to.above(0);
@@ -234,13 +236,13 @@ describe('bobber', function () {
         });
     });
 
-    it('getCompareCommits', function (done) {
+    it('getCompareCommits', (done) => {
 
-        var bobber = new Bobber({});
+        const bobber = new Bobber({});
         // get commits for this repo
-        bobber.getAllCommits('.', function (commits) {
+        bobber.getAllCommits('.', (commits) => {
 
-            bobber.getCompareCommits('.', commits[0].commit, commits[1].commit, function (commitsCompare) {
+            bobber.getCompareCommits('.', commits[0].commit, commits[1].commit, (commitsCompare) => {
 
                 //console.log(commitsCompare);
                 expect(commitsCompare.length).to.be.above(0);
@@ -249,63 +251,63 @@ describe('bobber', function () {
         });
     });
 
-    it('validateUrl ssh', function (done) {
+    it('validateUrl ssh', (done) => {
 
-        var bobber = new Bobber({});
+        const bobber = new Bobber({});
         // get commits for this repo
-        var scm = {
+        const scm = {
             type: 'github',
             branch: 'master',
             url: 'git@github.com:fishin/bobber'
         };
-        bobber.validateUrl(scm, function (result) {
+        bobber.validateUrl(scm, (result) => {
 
             expect(result).to.be.true();
             done();
         });
     });
 
-    it('validateUrl https valid', function (done) {
+    it('validateUrl https valid', (done) => {
 
-        var bobber = new Bobber({});
+        const bobber = new Bobber({});
         // get commits for this repo
-        var scm = {
+        const scm = {
             type: 'github',
             branch: 'master',
             url: 'https://github.com/fishin/bobber'
         };
-        bobber.validateUrl(scm, function (result) {
+        bobber.validateUrl(scm, (result) => {
 
             expect(result).to.be.true();
             done();
         });
     });
 
-    it('validateUrl https invalid', function (done) {
+    it('validateUrl https invalid', (done) => {
 
-        var bobber = new Bobber({});
+        const bobber = new Bobber({});
         // get commits for this repo
-        var scm = {
+        const scm = {
             type: 'github',
             branch: 'master',
             url: 'https://github.com/fishin/invalid'
         };
-        bobber.validateUrl(scm, function (result) {
+        bobber.validateUrl(scm, (result) => {
 
             expect(result).to.be.false();
             done();
         });
     });
 
-    it('validateUrl mock', function (done) {
+    it('validateUrl mock', (done) => {
 
-        var bobber = new Bobber({ mock: true });
-        var scm = {
+        const bobber = new Bobber({ mock: true });
+        const scm = {
             type: 'github',
             branch: 'master',
             url: 'https://github.com/fishin/invalid'
         };
-        bobber.validateUrl(scm, function (result) {
+        bobber.validateUrl(scm, (result) => {
 
             expect(result).to.be.true();
             done();

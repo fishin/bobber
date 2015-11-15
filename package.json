@@ -1,6 +1,6 @@
 {
   "name": "bobber",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "git related functions for ficion",
   "main": "lib/index.js",
   "repository": {
@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "code": "1.x.x",
-    "lab": "6.x.x",
+    "lab": "7.x.x",
     "mock": "git+https://github.com/fishin/mock",
     "pail": "git+https://github.com/fishin/pail"
   }

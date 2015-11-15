@@ -1,39 +1,41 @@
-var Code = require('code');
-var Hoek = require('hoek');
-var Lab = require('lab');
-var Mock = require('mock');
+'use strict';
 
-var Bobber = require('../lib');
+const Code = require('code');
+const Hoek = require('hoek');
+const Lab = require('lab');
+const Mock = require('mock');
 
-var internals = {};
+const Bobber = require('../lib');
 
-var lab = exports.lab = Lab.script();
-var expect = Code.expect;
-var describe = lab.describe;
-var it = lab.it;
+const internals = {};
 
-describe('pull requests', function () {
+const lab = exports.lab = Lab.script();
+const expect = Code.expect;
+const describe = lab.describe;
+const it = lab.it;
 
-    it('getPullRequests rate_limit https user notoken', function (done) {
+describe('pull requests', () => {
 
-        var type = 'github';
-        var routes = [
+    it('getPullRequests rate_limit https user notoken', (done) => {
+
+        const type = 'github';
+        const routes = [
             {
                 method: 'get',
                 path: '/repos/org/repo/pulls',
                 file: 'index.json'
             }
         ];
-        Mock.prepareServer(type, routes, function (server) {
+        Mock.prepareServer(type, routes, (server) => {
 
-            server.start(function () {
+            server.start(() => {
 
                 //console.log(server.info);
-                var bobber = new Bobber({ github: { url: server.info.uri } });
-                var scm = {
+                const bobber = new Bobber({ github: { url: server.info.uri } });
+                const scm = {
                     url: 'https://anon:anon@github.com/org/repo'
                 };
-                bobber.getPullRequests(scm, null, function (prs) {
+                bobber.getPullRequests(scm, null, (prs) => {
 
                     //console.log(prs);
                     expect(prs.length).to.be.above(0);
@@ -49,27 +51,27 @@ describe('pull requests', function () {
         });
     });
 
-    it('getPullRequests rate_limit https user token', function (done) {
+    it('getPullRequests rate_limit https user token', (done) => {
 
-        var type = 'github';
-        var routes = [
+        const type = 'github';
+        const routes = [
             {
                 method: 'get',
                 path: '/repos/org/repo/pulls',
                 file: 'index.json'
             }
         ];
-        Mock.prepareServer(type, routes, function (server) {
+        Mock.prepareServer(type, routes, (server) => {
 
-            server.start(function () {
+            server.start(() => {
 
                 //console.log(server.info);
-                var bobber = new Bobber({ github: { url: server.info.uri } });
-                var scm = {
+                const bobber = new Bobber({ github: { url: server.info.uri } });
+                const scm = {
                     url: 'https://anon:anon@github.com/org/repo'
                 };
-                var token = 1;
-                bobber.getPullRequests(scm, token, function (prs) {
+                const token = 1;
+                bobber.getPullRequests(scm, token, (prs) => {
 
                     //console.log(prs);
                     expect(prs.length).to.be.above(0);
@@ -85,26 +87,26 @@ describe('pull requests', function () {
         });
     });
 
-    it('getPullRequest rate_limit notoken', function (done) {
+    it('getPullRequest rate_limit notoken', (done) => {
 
-        var type = 'github';
-        var routes = [
+        const type = 'github';
+        const routes = [
             {
                 method: 'get',
                 path: '/repos/org/repo/pulls/1',
                 file: 'index.json'
             }
         ];
-        Mock.prepareServer(type, routes, function (server) {
+        Mock.prepareServer(type, routes, (server) => {
 
-            server.start(function () {
+            server.start(() => {
 
-                var bobber = new Bobber({ github: { url: server.info.uri } });
-                var scm = {
+                const bobber = new Bobber({ github: { url: server.info.uri } });
+                const scm = {
                     url: 'https://github.com/org/repo'
                 };
-                var number = 1;
-                bobber.getPullRequest(scm, number, null, function (pr) {
+                const number = 1;
+                bobber.getPullRequest(scm, number, null, (pr) => {
 
                     //console.log(pr);
                     expect(pr.number).to.be.above(0);
@@ -119,26 +121,26 @@ describe('pull requests', function () {
         });
     });
 
-    it('getPullRequest rate_limit_reached notoken', function (done) {
+    it('getPullRequest rate_limit_reached notoken', (done) => {
 
-        var type = 'github';
-        var routes = [
+        const type = 'github';
+        const routes = [
             {
                 method: 'get',
                 path: '/repos/org/repo/pulls/1',
                 file: 'reached.json'
             }
         ];
-        Mock.prepareServer(type, routes, function (server) {
+        Mock.prepareServer(type, routes, (server) => {
 
-            server.start(function () {
+            server.start(() => {
 
-                var bobber = new Bobber({ github: { url: server.info.uri } });
-                var scm = {
+                const bobber = new Bobber({ github: { url: server.info.uri } });
+                const scm = {
                     url: 'https://github.com/org/repo'
                 };
-                var number = 1;
-                bobber.getPullRequest(scm, number, null, function (pr) {
+                const number = 1;
+                bobber.getPullRequest(scm, number, null, (pr) => {
 
                     //console.log(pr);
                     expect(pr).to.not.exist();
@@ -149,26 +151,26 @@ describe('pull requests', function () {
         });
     });
 
-    it('getPullRequest null payload', function (done) {
+    it('getPullRequest null payload', (done) => {
 
-        var type = 'github';
-        var routes = [
+        const type = 'github';
+        const routes = [
             {
                 method: 'get',
                 path: '/repos/org/repo/pulls/1',
                 file: 'null'
             }
         ];
-        Mock.prepareServer(type, routes, function (server) {
+        Mock.prepareServer(type, routes, (server) => {
 
-            server.start(function () {
+            server.start(() => {
 
-                var bobber = new Bobber({ github: { url: server.info.uri } });
-                var scm = {
+                const bobber = new Bobber({ github: { url: server.info.uri } });
+                const scm = {
                     url: 'https://github.com/org/repo'
                 };
-                var number = 1;
-                bobber.getPullRequest(scm, number, null, function (pr) {
+                const number = 1;
+                bobber.getPullRequest(scm, number, null, (pr) => {
 
                     //console.log(pr);
                     expect(pr).to.not.exist();
@@ -179,27 +181,27 @@ describe('pull requests', function () {
         });
     });
 
-    it('getPullRequest rate_limit token', function (done) {
+    it('getPullRequest rate_limit token', (done) => {
 
-        var type = 'github';
-        var routes = [
+        const type = 'github';
+        const routes = [
             {
                 method: 'get',
                 path: '/repos/org/repo/pulls/1',
                 file: 'index.json'
             }
         ];
-        Mock.prepareServer(type, routes, function (server) {
+        Mock.prepareServer(type, routes, (server) => {
 
-            server.start(function () {
+            server.start(() => {
 
-                var bobber = new Bobber({ github: { url: server.info.uri } });
-                var scm = {
+                const bobber = new Bobber({ github: { url: server.info.uri } });
+                const scm = {
                     url: 'https://github.com/org/repo'
                 };
-                var token = 1;
-                var number = 1;
-                bobber.getPullRequest(scm, number, token, function (pr) {
+                const token = 1;
+                const number = 1;
+                bobber.getPullRequest(scm, number, token, (pr) => {
 
                     //console.log(pr);
                     expect(pr.number).to.be.above(0);
@@ -214,27 +216,27 @@ describe('pull requests', function () {
         });
     });
 
-    it('getPullRequest rate_limit token notfound', function (done) {
+    it('getPullRequest rate_limit token notfound', (done) => {
 
-        var type = 'github';
-        var routes = [
+        const type = 'github';
+        const routes = [
             {
                 method: 'get',
                 path: '/repos/org/repo/pulls/1',
                 file: 'notfound.json'
             }
         ];
-        Mock.prepareServer(type, routes, function (server) {
+        Mock.prepareServer(type, routes, (server) => {
 
-            server.start(function () {
+            server.start(() => {
 
-                var bobber = new Bobber({ github: { url: server.info.uri } });
-                var scm = {
+                const bobber = new Bobber({ github: { url: server.info.uri } });
+                const scm = {
                     url: 'https://github.com/org/repo'
                 };
-                var token = 1;
-                var number = 1;
-                bobber.getPullRequest(scm, number, token, function (pr) {
+                const token = 1;
+                const number = 1;
+                bobber.getPullRequest(scm, number, token, (pr) => {
 
                     //console.log(pr);
                     expect(pr).to.not.exist();
@@ -245,28 +247,28 @@ describe('pull requests', function () {
         });
     });
 
-    it('updateCommitStatus rate_limit', function (done) {
+    it('updateCommitStatus rate_limit', (done) => {
 
-        var type = 'github';
-        var routes = [
+        const type = 'github';
+        const routes = [
             {
                 method: 'post',
                 path: '/repos/org/repo/statuses/1',
                 file: 'index.json'
             }
         ];
-        Mock.prepareServer(type, routes, function (server) {
+        Mock.prepareServer(type, routes, (server) => {
 
-            server.start(function () {
+            server.start(() => {
 
-                var bobber = new Bobber({ github: { url: server.info.uri } });
-                var scm = {
+                const bobber = new Bobber({ github: { url: server.info.uri } });
+                const scm = {
                     url: 'https://github.com/org/repo'
                 };
-                var state = 'pending';
-                var commit = 1;
-                var token = 1;
-                bobber.updateCommitStatus(scm, commit, state, token, function (result) {
+                const state = 'pending';
+                const commit = 1;
+                const token = 1;
+                bobber.updateCommitStatus(scm, commit, state, token, (result) => {
 
                     //console.log(result);
                     expect(result.state).to.equal('pending');
@@ -278,28 +280,28 @@ describe('pull requests', function () {
         });
     });
 
-    it('updateCommitStatus rate_limit_reached', function (done) {
+    it('updateCommitStatus rate_limit_reached', (done) => {
 
-        var type = 'github';
-        var routes = [
+        const type = 'github';
+        const routes = [
             {
                 method: 'post',
                 path: '/repos/org/repo/statuses/1',
                 file: 'reached.json'
             }
         ];
-        Mock.prepareServer(type, routes, function (server) {
+        Mock.prepareServer(type, routes, (server) => {
 
-            server.start(function () {
+            server.start(() => {
 
-                var bobber = new Bobber({ github: { url: server.info.uri } });
-                var scm = {
+                const bobber = new Bobber({ github: { url: server.info.uri } });
+                const scm = {
                     url: 'https://github.com/org/repo'
                 };
-                var state = 'pending';
-                var commit = 1;
-                var token = 1;
-                bobber.updateCommitStatus(scm, commit, state, token, function (result) {
+                const state = 'pending';
+                const commit = 1;
+                const token = 1;
+                bobber.updateCommitStatus(scm, commit, state, token, (result) => {
 
                     //console.log(result);
                     expect(result.error).to.exist();
@@ -310,28 +312,28 @@ describe('pull requests', function () {
         });
     });
 
-    it('updateCommitStatus notfound', function (done) {
+    it('updateCommitStatus notfound', (done) => {
 
-        var type = 'github';
-        var routes = [
+        const type = 'github';
+        const routes = [
             {
                 method: 'post',
                 path: '/repos/org/repo/statuses/1',
                 file: 'notfound.json'
             }
         ];
-        Mock.prepareServer(type, routes, function (server) {
+        Mock.prepareServer(type, routes, (server) => {
 
-            server.start(function () {
+            server.start(() => {
 
-                var bobber = new Bobber({ github: { url: server.info.uri } });
-                var scm = {
+                const bobber = new Bobber({ github: { url: server.info.uri } });
+                const scm = {
                     url: 'https://github.com/org/repo'
                 };
-                var state = 'pending';
-                var commit = 1;
-                var token = 1;
-                bobber.updateCommitStatus(scm, commit, state, token, function (result) {
+                const state = 'pending';
+                const commit = 1;
+                const token = 1;
+                bobber.updateCommitStatus(scm, commit, state, token, (result) => {
 
                     //console.log(result);
                     expect(result.error).to.exist();
@@ -342,27 +344,27 @@ describe('pull requests', function () {
         });
     });
 
-    it('mergePullRequest merge rate_limit', function (done) {
+    it('mergePullRequest merge rate_limit', (done) => {
 
-        var type = 'github';
-        var routes = [
+        const type = 'github';
+        const routes = [
             {
                 method: 'put',
                 path: '/repos/org/repo/pulls/1/merge',
                 file: 'index.json'
             }
         ];
-        Mock.prepareServer(type, routes, function (server) {
+        Mock.prepareServer(type, routes, (server) => {
 
-            server.start(function () {
+            server.start(() => {
 
-                var bobber = new Bobber({ github: { url: server.info.uri } });
-                var scm = {
+                const bobber = new Bobber({ github: { url: server.info.uri } });
+                const scm = {
                     url: 'https://github.com/org/repo'
                 };
-                var token = 1;
-                var number = 1;
-                bobber.mergePullRequest(scm, number, token, function (result) {
+                const token = 1;
+                const number = 1;
+                bobber.mergePullRequest(scm, number, token, (result) => {
 
                     //console.log(result);
                     expect(result.sha.length).to.equal(40);
@@ -376,27 +378,27 @@ describe('pull requests', function () {
         });
     });
 
-    it('mergePullRequest merge rate_limit error.txt', function (done) {
+    it('mergePullRequest merge rate_limit error.txt', (done) => {
 
-        var type = 'github';
-        var routes = [
+        const type = 'github';
+        const routes = [
             {
                 method: 'put',
                 path: '/repos/org/repo/pulls/1/merge',
                 file: 'error.txt'
             }
         ];
-        Mock.prepareServer(type, routes, function (server) {
+        Mock.prepareServer(type, routes, (server) => {
 
-            server.start(function () {
+            server.start(() => {
 
-                var bobber = new Bobber({ github: { url: server.info.uri } });
-                var scm = {
+                const bobber = new Bobber({ github: { url: server.info.uri } });
+                const scm = {
                     url: 'https://github.com/org/repo'
                 };
-                var token = 1;
-                var number = 1;
-                bobber.mergePullRequest(scm, number, token, function (result) {
+                const token = 1;
+                const number = 1;
+                bobber.mergePullRequest(scm, number, token, (result) => {
 
                     //console.log(result);
                     expect(result.error).to.exist();
@@ -407,27 +409,27 @@ describe('pull requests', function () {
         });
     });
 
-    it('mergePullRequest mergefail rate_limit', function (done) {
+    it('mergePullRequest mergefail rate_limit', (done) => {
 
-        var type = 'github';
-        var routes = [
+        const type = 'github';
+        const routes = [
             {
                 method: 'put',
                 path: '/repos/org/repo/pulls/1/merge',
                 file: 'fail.json'
             }
         ];
-        Mock.prepareServer(type, routes, function (server) {
+        Mock.prepareServer(type, routes, (server) => {
 
-            server.start(function () {
+            server.start(() => {
 
-                var bobber = new Bobber({ github: { url: server.info.uri } });
-                var scm = {
+                const bobber = new Bobber({ github: { url: server.info.uri } });
+                const scm = {
                     url: 'https://github.com/org/repo'
                 };
-                var token = 1;
-                var number = 1;
-                bobber.mergePullRequest(scm, number, token, function (result) {
+                const token = 1;
+                const number = 1;
+                bobber.mergePullRequest(scm, number, token, (result) => {
 
                     //console.log(result);
                     expect(result.merged).to.be.false();
@@ -439,27 +441,27 @@ describe('pull requests', function () {
         });
     });
 
-    it('mergePullRequest merge rate_limit_reached', function (done) {
+    it('mergePullRequest merge rate_limit_reached', (done) => {
 
-        var type = 'github';
-        var routes = [
+        const type = 'github';
+        const routes = [
             {
                 method: 'put',
                 path: '/repos/org/repo/pulls/1/merge',
                 file: 'reached.json'
             }
         ];
-        Mock.prepareServer(type, routes, function (server) {
+        Mock.prepareServer(type, routes, (server) => {
 
-            server.start(function () {
+            server.start(() => {
 
-                var bobber = new Bobber({ github: { url: server.info.uri } });
-                var scm = {
+                const bobber = new Bobber({ github: { url: server.info.uri } });
+                const scm = {
                     url: 'https://github.com/org/repo'
                 };
-                var token = 1;
-                var number = 1;
-                bobber.mergePullRequest(scm, number, token, function (result) {
+                const token = 1;
+                const number = 1;
+                bobber.mergePullRequest(scm, number, token, (result) => {
 
                     //console.log(result);
                     expect(result.error).to.exist();
@@ -470,25 +472,25 @@ describe('pull requests', function () {
         });
     });
 
-    it('getPullRequests rate_limit https', function (done) {
+    it('getPullRequests rate_limit https', (done) => {
 
-        var type = 'github';
-        var routes = [
+        const type = 'github';
+        const routes = [
             {
                 method: 'get',
                 path: '/repos/org/repo/pulls',
                 file: 'index.json'
             }
         ];
-        Mock.prepareServer(type, routes, function (server) {
+        Mock.prepareServer(type, routes, (server) => {
 
-            server.start(function () {
+            server.start(() => {
 
-                var bobber = new Bobber({ github: { url: server.info.uri } });
-                var scm = {
+                const bobber = new Bobber({ github: { url: server.info.uri } });
+                const scm = {
                     url: 'https://github.com/org/repo'
                 };
-                bobber.getPullRequests(scm, null, function (prs) {
+                bobber.getPullRequests(scm, null, (prs) => {
 
                     //console.log(prs);
                     expect(prs.length).to.be.above(0);
@@ -504,25 +506,25 @@ describe('pull requests', function () {
         });
     });
 
-    it('getPullRequests rate_limit ssh', function (done) {
+    it('getPullRequests rate_limit ssh', (done) => {
 
-        var type = 'github';
-        var routes = [
+        const type = 'github';
+        const routes = [
             {
                 method: 'get',
                 path: '/repos/org/repo/pulls',
                 file: 'index.json'
             }
         ];
-        Mock.prepareServer(type, routes, function (server) {
+        Mock.prepareServer(type, routes, (server) => {
 
-            server.start(function () {
+            server.start(() => {
 
-                var bobber = new Bobber({ github: { url: server.info.uri } });
-                var scm = {
+                const bobber = new Bobber({ github: { url: server.info.uri } });
+                const scm = {
                     url: 'git@github.com/org/repo'
                 };
-                bobber.getPullRequests(scm, null, function (prs) {
+                bobber.getPullRequests(scm, null, (prs) => {
 
                     //console.log(prs);
                     expect(prs.length).to.be.above(0);
@@ -538,25 +540,25 @@ describe('pull requests', function () {
         });
     });
 
-    it('getPullRequests rate_limit_reached', function (done) {
+    it('getPullRequests rate_limit_reached', (done) => {
 
-        var type = 'github';
-        var routes = [
+        const type = 'github';
+        const routes = [
             {
                 method: 'get',
                 path: '/repos/org/repo/pulls',
                 file: 'reached.json'
             }
         ];
-        Mock.prepareServer(type, routes, function (server) {
+        Mock.prepareServer(type, routes, (server) => {
 
-            server.start(function () {
+            server.start(() => {
 
-                var bobber = new Bobber({ github: { url: server.info.uri } });
-                var scm = {
+                const bobber = new Bobber({ github: { url: server.info.uri } });
+                const scm = {
                     url: 'https://anon:anon@github.com/org/repo'
                 };
-                bobber.getPullRequests(scm, null, function (prs) {
+                bobber.getPullRequests(scm, null, (prs) => {
 
                     //console.log(prs);
                     expect(prs.length).to.equal(0);
@@ -567,25 +569,25 @@ describe('pull requests', function () {
         });
     });
 
-    it('getPullRequests null payload', function (done) {
+    it('getPullRequests null payload', (done) => {
 
-        var type = 'github';
-        var routes = [
+        const type = 'github';
+        const routes = [
             {
                 method: 'get',
                 path: '/repos/org/repo/pulls',
                 file: 'null'
             }
         ];
-        Mock.prepareServer(type, routes, function (server) {
+        Mock.prepareServer(type, routes, (server) => {
 
-            server.start(function () {
+            server.start(() => {
 
-                var bobber = new Bobber({ github: { url: server.info.uri } });
-                var scm = {
+                const bobber = new Bobber({ github: { url: server.info.uri } });
+                const scm = {
                     url: 'https://anon:anon@github.com/org/repo'
                 };
-                bobber.getPullRequests(scm, null, function (prs) {
+                bobber.getPullRequests(scm, null, (prs) => {
 
                     //console.log(prs);
                     expect(prs.length).to.equal(0);
@@ -596,25 +598,25 @@ describe('pull requests', function () {
         });
     });
 
-    it('getPullRequests invalid', function (done) {
+    it('getPullRequests invalid', (done) => {
 
-        var type = 'github';
-        var routes = [
+        const type = 'github';
+        const routes = [
             {
                 method: 'get',
                 path: '/repos/org/invalid/pulls',
                 file: 'notfound.json'
             }
         ];
-        Mock.prepareServer(type, routes, function (server) {
+        Mock.prepareServer(type, routes, (server) => {
 
-            server.start(function () {
+            server.start(() => {
 
-                var bobber = new Bobber({ github: { url: server.info.uri } });
-                var scm = {
+                const bobber = new Bobber({ github: { url: server.info.uri } });
+                const scm = {
                     url: 'https://anon:anon@github.com/org/invalid'
                 };
-                bobber.getPullRequests(scm, null, function (prs) {
+                bobber.getPullRequests(scm, null, (prs) => {
 
                     //console.log(prs);
                     expect(prs.length).to.equal(0);
@@ -625,25 +627,25 @@ describe('pull requests', function () {
         });
     });
 
-    it('checkApiRateLimit reached no token', function (done) {
+    it('checkApiRateLimit reached no token', (done) => {
 
-        var type = 'github';
-        var routes = [
+        const type = 'github';
+        const routes = [
             {
                 method: 'get',
                 path: '/rate_limit',
                 file: 'reached.json'
             }
         ];
-        Mock.prepareServer(type, routes, function (server) {
+        Mock.prepareServer(type, routes, (server) => {
 
-            server.start(function () {
+            server.start(() => {
 
-                var bobber = new Bobber({ github: { url: server.info.uri } });
-                var scm = {
+                const bobber = new Bobber({ github: { url: server.info.uri } });
+                const scm = {
                     url: 'https://github.com/org/repo'
                 };
-                bobber.checkApiRateLimit(scm, null, function (result) {
+                bobber.checkApiRateLimit(scm, null, (result) => {
 
                     //console.log(result);
                     expect(result.rate.remaining).to.equal(0);
@@ -654,26 +656,26 @@ describe('pull requests', function () {
         });
     });
 
-    it('checkApiRateLimit token', function (done) {
+    it('checkApiRateLimit token', (done) => {
 
-        var type = 'github';
-        var routes = [
+        const type = 'github';
+        const routes = [
             {
                 method: 'get',
                 path: '/rate_limit',
                 file: 'authorized.json'
             }
         ];
-        Mock.prepareServer(type, routes, function (server) {
+        Mock.prepareServer(type, routes, (server) => {
 
-            server.start(function () {
+            server.start(() => {
 
-                var bobber = new Bobber({ github: { url: server.info.uri } });
-                var scm = {
+                const bobber = new Bobber({ github: { url: server.info.uri } });
+                const scm = {
                     url: 'https://github.com/org/repo'
                 };
-                var token = 1;
-                bobber.checkApiRateLimit(scm, token, function (result) {
+                const token = 1;
+                bobber.checkApiRateLimit(scm, token, (result) => {
 
                     //console.log(result);
                     expect(result).to.not.exist();
@@ -684,25 +686,25 @@ describe('pull requests', function () {
         });
     });
 
-    it('checkApiRateLimit no token', function (done) {
+    it('checkApiRateLimit no token', (done) => {
 
-        var type = 'github';
-        var routes = [
+        const type = 'github';
+        const routes = [
             {
                 method: 'get',
                 path: '/rate_limit',
                 file: 'anonymous.json'
             }
         ];
-        Mock.prepareServer(type, routes, function (server) {
+        Mock.prepareServer(type, routes, (server) => {
 
-            server.start(function () {
+            server.start(() => {
 
-                var bobber = new Bobber({ github: { url: server.info.uri } });
-                var scm = {
+                const bobber = new Bobber({ github: { url: server.info.uri } });
+                const scm = {
                     url: 'https://github.com/org/repo'
                 };
-                bobber.checkApiRateLimit(scm, null, function (result) {
+                bobber.checkApiRateLimit(scm, null, (result) => {
 
                     //console.log(result);
                     expect(result).to.not.exist();
