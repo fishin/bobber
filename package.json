@@ -1,6 +1,6 @@
 {
   "name": "bobber",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "git related functions for ficion",
   "main": "lib/index.js",
   "repository": {
