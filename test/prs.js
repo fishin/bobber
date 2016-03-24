@@ -522,7 +522,7 @@ describe('pull requests', () => {
 
                 const bobber = new Bobber({ github: { url: server.info.uri } });
                 const scm = {
-                    url: 'git@github.com/org/repo'
+                    url: 'git@github.com:org/repo'
                 };
                 bobber.getPullRequests(scm, null, (prs) => {
 
@@ -532,7 +532,7 @@ describe('pull requests', () => {
                     expect(prs[0].commit.length).to.equal(40);
                     expect(prs[0].mergeCommit.length).to.equal(40);
                     expect(prs[0].shortCommit.length).to.equal(7);
-                    expect(prs[0].repoUrl).to.equal('git@github.com/org/repo');
+                    expect(prs[0].repoUrl).to.equal('git@github.com:org/repo');
                     server.stop(Hoek.ignore);
                     done();
                 });
